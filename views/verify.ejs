@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EduVerse | Verification Profile</title>
+  <title>Abhedya | Verification Profile</title>
   <link rel="stylesheet" href="/css/pages/verify.css">
 </head>
 
@@ -12,15 +12,11 @@
 
   <!-- Top Dark Header Navigation (External Public View) -->
   <header>
-    <div class="brand-section">
-      <div class="brand-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
-      </div>
+    <<div class="brand-section">
+      <img src="/images/logo.jpeg" alt="Abhedya Logo" class="brand-logo-img">
+      
       <div class="brand-text">
-        <h2>EduVerse</h2>
+        <h2>Abhedya</h2>
         <span>Public Verification Portal</span>
       </div>
     </div>
@@ -100,13 +96,22 @@
                       <% } %>
 
                         <!-- Document Data Audit Trail -->
-                        <div class="data-row"><strong>Name:</strong>
+                        <div class="data-row">
+                          <strong>Name:</strong>
                           <%= verifiedData.studentName %>
                         </div>
-                        <div class="data-row"><strong>Cert ID:</strong>
+                        <div class="data-row">
+                          <strong>Cert ID:</strong>
                           <%= verifiedData.id %>
                         </div>
-                        <div class="data-row"><strong>Degree:</strong>
+                        <div class="data-row">
+                          <strong>Document Type:</strong>
+                          <span style="color: #2563eb; font-weight: 600;">
+                            <%= verifiedData.docType || 'Official Degree' %>
+                          </span>
+                        </div>
+                        <div class="data-row">
+                          <strong>Degree:</strong>
                           <%= verifiedData.degree %>
                         </div>
                         <div class="data-row">
@@ -116,24 +121,74 @@
                             <%= verifiedData.branch %>
                           </span>
                         </div>
-                        <div class="data-row"><strong>Grad Year:</strong>
+                        <div class="data-row">
+                          <strong>Grad Year:</strong>
                           <%= verifiedData.gradYear %>
                         </div>
 
-                        <div class="hash-display mt-4">
-                          <div class="hash-label">Original Database Hash:</div>
-                          <div class="hash-string">
-                            <%= verifiedData.originalHash %>
+                        <!-- DYNAMIC LAYOUT: Render Full Grade Table if it's a Marksheet -->
+                        <% if (verifiedData.docType==='Semester Marksheet' ) { %>
+                          <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+                            <h4 style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 10px;">
+                              Semester Grade Report Preview</h4>
+                            <div
+                              style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; font-size: 0.8rem;">
+                              <div
+                                style="display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 6px; color: #64748b; font-weight: bold;">
+                                <span style="flex: 2;">Course</span>
+                                <span style="flex: 1; text-align: center;">Credits</span>
+                                <span style="flex: 1; text-align: right;">Grade</span>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                                <span style="flex: 2;">CH-101 Thermodynamics</span>
+                                <span style="flex: 1; text-align: center;">4</span>
+                                <span style="flex: 1; text-align: right; font-weight: bold;">A</span>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                                <span style="flex: 2;">CH-103 Fluid Mechanics</span>
+                                <span style="flex: 1; text-align: center;">4</span>
+                                <span style="flex: 1; text-align: right; font-weight: bold;">EX</span>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                                <span style="flex: 2;">MA-201 Numerical Methods</span>
+                                <span style="flex: 1; text-align: center;">3</span>
+                                <span style="flex: 1; text-align: right; font-weight: bold;">B</span>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                                <span style="flex: 2;">CY-102 Engineering Chemistry</span>
+                                <span style="flex: 1; text-align: center;">3</span>
+                                <span style="flex: 1; text-align: right; font-weight: bold;">A</span>
+                              </div>
+                              <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                                <span style="flex: 2;">HS-104 Professional Comm.</span>
+                                <span style="flex: 1; text-align: center;">2</span>
+                                <span style="flex: 1; text-align: right; font-weight: bold;">EX</span>
+                              </div>
+                              <div
+                                style="margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 8px; text-align: right; font-weight: bold; color: #1e293b;">
+                                SGPA: 9.15 / 10.0
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                          <% } %>
 
-                        <div class="hash-display"
-                          style="background-color: <%= verifiedData.isMatch ? '#f8fafc' : '#fef2f2' %>; border-color: <%= verifiedData.isMatch ? '#e2e8f0' : '#fca5a5' %>;">
-                          <div class="hash-label">Calculated Verification Hash:</div>
-                          <div class="hash-string" style="color: <%= verifiedData.isMatch ? '#0f172a' : '#dc2626' %>;">
-                            <%= verifiedData.recomputedHash %>
-                          </div>
-                        </div>
+                            <!-- HASHES -->
+                            <div class="hash-display mt-4">
+                              <div class="hash-label">Original Database Hash:</div>
+                              <div class="hash-string">
+                                <%= verifiedData.originalHash %>
+                              </div>
+                            </div>
+
+                            <div class="hash-display" <%- verifiedData.isMatch
+                              ? 'style="background-color: #f8fafc; border-color: #e2e8f0;"'
+                              : 'style="background-color: #fef2f2; border-color: #fca5a5;"' %>>
+                              <div class="hash-label">Calculated Verification Hash:</div>
+                              <div class="hash-string" <%- verifiedData.isMatch ? 'style="color: #0f172a;"'
+                                : 'style="color: #dc2626;"' %>>
+                                <%= verifiedData.recomputedHash %>
+                              </div>
+                            </div>
 
               </div>
               <% } %>

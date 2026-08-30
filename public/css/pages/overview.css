@@ -35,15 +35,12 @@ header {
   gap: 12px;
 }
 
-.brand-icon {
-  background-color: #3b82f6;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
+/* New Image Logo Style */
+.brand-logo-img {
+  height: 38px;
+  width: auto;
+  border-radius: 6px;
+  object-fit: contain;
 }
 
 .brand-text h2 {

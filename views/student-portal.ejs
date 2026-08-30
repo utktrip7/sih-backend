@@ -42,15 +42,12 @@
       font-size: 1rem;
     }
 
-    .brand-icon {
-      background-color: #3b82f6;
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
+    /* Replace .brand-icon with this */
+    .brand-logo-img {
+      height: 38px;
+      width: auto;
+      border-radius: 6px;
+      object-fit: contain;
     }
 
     .header-title {
@@ -411,22 +408,6 @@
       color: #64748b;
       margin-bottom: 1.25rem;
     }
-
-    .modal-close {
-      margin-top: 1.25rem;
-      background-color: #0f172a;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .modal-close:hover {
-      background-color: #334155;
-    }
   </style>
 </head>
 
@@ -434,11 +415,8 @@
   <!-- Top Dark Header -->
   <header>
     <div class="brand">
-      <div class="brand-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
+      <div class="brand">
+        <img src="/images/logo.jpeg" alt="Abhedya Logo" class="brand-logo-img">
       </div>
       <span>Student Portal</span>
     </div>
@@ -573,11 +551,27 @@
   <!-- QR CODE MODAL POPUP -->
   <div id="qrModal" class="modal-overlay">
     <div class="modal-card">
+      <!-- Minimal Close 'X' Button -->
+      <button onclick="closeQRModal()"
+        style="position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #94a3b8; transition: color 0.15s;"
+        onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#94a3b8'">&times;</button>
+
       <h3>Certificate QR Code</h3>
       <p id="modalCertId" style="font-family: monospace; font-weight: bold; color: #2563eb;"></p>
       <div id="qrcodeContainer" style="display: flex; justify-content: center; margin: 15px 0;"></div>
-      <p style="font-size: 0.75rem;">Scan with any phone camera to trigger cryptographic verification.</p>
-      <button class="modal-close" onclick="closeQRModal()">Close</button>
+      <p style="font-size: 0.75rem; margin-bottom: 1.25rem;">Scan with any phone camera to trigger cryptographic
+        verification.</p>
+
+      <!-- New Dynamic Download Button -->
+      <a id="modalDownloadBtn" href="#" class="btn-download" style="justify-content: center; width: 100%;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        Download QR
+      </a>
     </div>
   </div>
 
@@ -605,9 +599,13 @@
       const modal = document.getElementById("qrModal");
       const container = document.getElementById("qrcodeContainer");
       const idText = document.getElementById("modalCertId");
+      const downloadBtn = document.getElementById("modalDownloadBtn");
 
-      container.innerHTML = ""; // Clear previous QR
+      container.innerHTML = "";
       idText.innerText = "ID: " + certId;
+
+      // Update this line to point to the new QR-only route
+      downloadBtn.href = "/download-qr/" + certId;
 
       const verificationUrl = window.location.origin + "/dashboard/verify?id=" + certId;
 

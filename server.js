@@ -7,6 +7,10 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const PDFDocument = require("pdfkit");
 const QRCode = require("qrcode"); // Added QR Code Engine
+const multer = require("multer");
+const csv = require("csv-parser");
+const fs = require("fs");
+const upload = multer({ dest: "uploads/" }); // Temp folder for uploads
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -197,10 +201,8 @@ app.post(
   ["/generate-hash", "/dashboard/issue"],
   requireRole("admin"),
   async (req, res) => {
-    // UPDATED: Grab docType from the request body
     const { studentName, rollNo, gradYear, degree, branch, docType } = req.body;
 
-    // UPDATED: Include docType in the rawData string so it is cryptographically secured
     const rawData = `${studentName}|${rollNo}|${degree}|${branch}|${gradYear}|${docType}`;
     const documentHash = crypto
       .createHash("sha256")
@@ -210,7 +212,6 @@ app.post(
     const certificateID = `CERT-${randomHex}`;
 
     try {
-      // 1. INJECT the certificate permanently into your Postgres table (Added doc_type)
       await pool.query(
         `INSERT INTO certificates (cert_id, student_name, roll_no, degree, branch, grad_year, document_hash, doc_type) 
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
@@ -222,18 +223,15 @@ app.post(
           branch,
           gradYear,
           documentHash,
-          docType, // NEW VARIABLE
+          docType,
         ],
       );
 
-      // 2. NEW: WELD IT TO THE BLOCKCHAIN LEDGER
       await addBlockToLedger(certificateID, documentHash);
 
-      // 3. Generate Real QR Code linking to the scanner
       const verificationUrl = `https://eduverse-portal.up.railway.app/dashboard/verify?id=${certificateID}`;
       const qrCodeImage = await QRCode.toDataURL(verificationUrl);
 
-      // 4. Show the Admin the successful result on the screen
       res.render("issue", {
         activePage: "issue",
         credentialData: {
@@ -243,7 +241,7 @@ app.post(
           degree: degree,
           branch: branch,
           gradYear: gradYear,
-          docType: docType, // Pass to frontend preview
+          docType: docType,
           hash: documentHash,
           qrCode: qrCodeImage,
         },
@@ -255,13 +253,135 @@ app.post(
   },
 );
 
-// NEW: ADMIN LEDGER DASHBOARD ROUTE
+// ============================================
+// CSV BULK UPLOAD ROUTE
+// ============================================
+app.post(
+  "/dashboard/issue/bulk",
+  requireRole("admin"),
+  upload.single("csvFile"),
+  (req, res) => {
+    if (!req.file) return res.status(400).send("No file uploaded.");
+
+    const rows = [];
+
+    fs.createReadStream(req.file.path)
+      .pipe(
+        csv({
+          mapHeaders: ({ header }) => header.trim().replace(/^\uFEFF/, ""),
+        }),
+      )
+      .on("data", (row) => {
+        rows.push(row);
+      })
+      .on("end", async () => {
+        const issued = [];
+        const failed = [];
+
+        for (const row of rows) {
+          const { studentName, rollNo, degree, branch, gradYear, docType } =
+            row;
+
+          if (
+            !studentName ||
+            !rollNo ||
+            !degree ||
+            !branch ||
+            !gradYear ||
+            !docType
+          ) {
+            failed.push({
+              rollNo: rollNo || "(unknown)",
+              reason: "Missing required column(s)",
+            });
+            continue;
+          }
+
+          try {
+            const rawData = `${studentName}|${rollNo}|${degree}|${branch}|${gradYear}|${docType}`;
+            const documentHash = crypto
+              .createHash("sha256")
+              .update(rawData)
+              .digest("hex");
+            const randomHex = crypto
+              .randomBytes(2)
+              .toString("hex")
+              .toUpperCase();
+            const certificateID = `CERT-${randomHex}`;
+
+            await pool.query(
+              `INSERT INTO certificates (cert_id, student_name, roll_no, degree, branch, grad_year, document_hash, doc_type)
+               VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+              [
+                certificateID,
+                studentName,
+                rollNo,
+                degree,
+                branch,
+                gradYear,
+                documentHash,
+                docType,
+              ],
+            );
+
+            await addBlockToLedger(certificateID, documentHash);
+            issued.push({ studentName, rollNo, certificateID });
+          } catch (err) {
+            console.error("Bulk issue error for row:", row, err);
+            failed.push({
+              rollNo,
+              reason: "Database error while saving this row",
+            });
+          }
+        }
+
+        fs.unlink(req.file.path, (err) => {
+          if (err) console.error("Failed to delete temp CSV upload:", err);
+        });
+
+        const issuedRows = issued
+          .map(
+            (i) =>
+              `<tr><td>${i.studentName}</td><td>${i.rollNo}</td><td>${i.certificateID}</td></tr>`,
+          )
+          .join("");
+        const failedRows = failed
+          .map((f) => `<tr><td>${f.rollNo}</td><td>${f.reason}</td></tr>`)
+          .join("");
+
+        res.send(`
+          <html>
+            <head>
+              <title>Bulk Issue Results</title>
+              <link rel="stylesheet" href="/css/pages/issue.css">
+            </head>
+            <body style="padding: 2rem;">
+              <h1>Bulk Upload Complete</h1>
+              <p>${issued.length} certificate(s) issued successfully. ${failed.length} row(s) failed.</p>
+              ${issued.length ? `<h2>Issued</h2><table border="1" cellpadding="8"><tr><th>Student</th><th>Roll No</th><th>Cert ID</th></tr>${issuedRows}</table>` : ""}
+              ${failed.length ? `<h2>Failed</h2><table border="1" cellpadding="8"><tr><th>Roll No</th><th>Reason</th></tr>${failedRows}</table>` : ""}
+              <p style="margin-top: 1.5rem;"><a href="/dashboard/issue">&larr; Back to Issue & Verify</a></p>
+            </body>
+          </html>
+        `);
+      })
+      .on("error", (err) => {
+        console.error("CSV parsing error:", err);
+        fs.unlink(req.file.path, (cleanupErr) => {
+          if (cleanupErr)
+            console.error("Failed to delete temp file on error:", cleanupErr);
+        });
+        res.status(500).send("Error parsing CSV file.");
+      });
+  },
+);
+
+// ADMIN LEDGER DASHBOARD ROUTE
 app.get("/dashboard/ledger", requireRole("admin"), async (req, res) => {
   const { rows: blocks } = await pool.query(
     "SELECT * FROM ledger_blocks ORDER BY block_index ASC",
   );
   const chainStatus = await verifyChainIntegrity();
-  // We explicitly remap credential_id from the ledger to cert_id for the UI
   const mappedBlocks = blocks.map((block) => ({
     ...block,
     credential_id: block.cert_id,
@@ -274,7 +394,7 @@ app.get("/dashboard/ledger", requireRole("admin"), async (req, res) => {
 });
 
 // ==========================================
-// 5. PUBLIC VERIFICATION PORTAL
+// 5. PUBLIC VERIFICATION PORTAL (UPDATED FOR OPTION 2)
 // ==========================================
 
 app.get("/dashboard/verify", (req, res) => {
@@ -299,11 +419,8 @@ app.post("/verify-action", async (req, res) => {
     }
 
     const cert = result.rows[0];
-
-    // Check if the user is simulating a tamper via the UI (if you still have that feature)
     const branchToVerify = req.body.tamperBranch || cert.branch;
 
-    // UPDATED: Include doc_type when recomputing the hash to check for tampering
     const rawData = `${cert.student_name}|${cert.roll_no}|${cert.degree}|${branchToVerify}|${cert.grad_year}|${cert.doc_type}`;
     const recomputedHash = crypto
       .createHash("sha256")
@@ -311,12 +428,16 @@ app.post("/verify-action", async (req, res) => {
       .digest("hex");
 
     const isMatch = recomputedHash === cert.document_hash;
-
-    // NEW: Check if the entire blockchain is still intact!
     const chainStatus = await verifyChainIntegrity();
 
-    // Determine overall validity
-    const isRevoked = cert.status === "revoked";
+    // OPTION 2 CHECK: Query the separate revocations table instead of a status column
+    const revocationQuery = await pool.query(
+      "SELECT * FROM revocations WHERE cert_id = $1",
+      [selectedCertId],
+    );
+    const isRevoked = revocationQuery.rows.length > 0;
+    const revocationReason = isRevoked ? revocationQuery.rows[0].reason : null;
+
     const isTampered = !isMatch;
     const isValid = !isTampered && !isRevoked && chainStatus.valid;
 
@@ -329,7 +450,7 @@ app.post("/verify-action", async (req, res) => {
         degree: cert.degree,
         branch: branchToVerify,
         gradYear: cert.grad_year,
-        docType: cert.doc_type, // Expose to the verify page
+        docType: cert.doc_type,
         originalHash: cert.document_hash,
         recomputedHash: recomputedHash,
         isMatch: isMatch,
@@ -337,7 +458,7 @@ app.post("/verify-action", async (req, res) => {
         isRevoked: isRevoked,
         chainValid: chainStatus.valid,
         isValid: isValid,
-        revocationReason: cert.revocation_reason,
+        revocationReason: revocationReason,
       },
       prefillId: selectedCertId,
     });
@@ -348,14 +469,17 @@ app.post("/verify-action", async (req, res) => {
 });
 
 // ==========================================
-// 6. ADMIN REVOCATION REGISTRY (REAL DB)
+// 6. ADMIN REVOCATION REGISTRY (OPTION 2 APPEND-ONLY)
 // ==========================================
 
 app.get("/dashboard/revoke", requireRole("admin"), async (req, res) => {
   try {
-    // Fetch only documents where the status is 'revoked'
+    // Fetch from the append-only revocations table joined with certificates data
     const result = await pool.query(
-      "SELECT * FROM certificates WHERE status = 'revoked' ORDER BY revoked_date DESC",
+      `SELECT c.*, r.reason as revocation_reason, r.revoked_at as revoked_date 
+       FROM certificates c 
+       JOIN revocations r ON c.cert_id = r.cert_id 
+       ORDER BY r.revoked_at DESC`,
     );
     res.render("revoke", { activePage: "revoke", revokedList: result.rows });
   } catch (err) {
@@ -367,13 +491,18 @@ app.get("/dashboard/revoke", requireRole("admin"), async (req, res) => {
 app.post("/revoke-action", requireRole("admin"), async (req, res) => {
   const { certId, reason } = req.body;
   try {
-    // Permanently flip the switch in the database
+    // OPTION 2: Append-only insert into the revocations table.
+    // This leaves the original certificate row completely pristine so the ledger hash stays valid!
     await pool.query(
-      "UPDATE certificates SET status = 'revoked', revocation_reason = $1, revoked_date = CURRENT_DATE WHERE cert_id = $2",
-      [reason || "Academic misconduct discovered", certId],
+      "INSERT INTO revocations (cert_id, reason) VALUES ($1, $2)",
+      [certId, reason || "Academic misconduct discovered"],
     );
     res.redirect("/dashboard/revoke");
   } catch (err) {
+    // Handle case where certificate is already revoked (unique constraint violation)
+    if (err.code === "23505") {
+      return res.status(400).send("This certificate has already been revoked.");
+    }
     console.error("Error revoking certificate:", err);
     res.status(500).send("Error revoking certificate.");
   }
@@ -492,24 +621,27 @@ app.get("/student-portal", requireRole("student"), async (req, res) => {
     const fullName =
       userResult.rows.length > 0 ? userResult.rows[0].full_name : currentRollNo;
 
-    // Fetch the latest Degree or Bonafide certificate
     const latestCert = await pool.query(
       "SELECT * FROM certificates WHERE roll_no = $1 AND doc_type != 'Semester Marksheet' ORDER BY issue_date DESC LIMIT 1",
       [currentRollNo],
     );
 
-    // Fetch the latest Semester Marksheet independently
     const latestMarksheet = await pool.query(
       "SELECT * FROM certificates WHERE roll_no = $1 AND doc_type = 'Semester Marksheet' ORDER BY issue_date DESC LIMIT 1",
       [currentRollNo],
     );
 
-    // Combine them into a single array to pass to the view
     const displayCertificates = [];
     if (latestCert.rows.length > 0)
       displayCertificates.push(latestCert.rows[0]);
     if (latestMarksheet.rows.length > 0)
       displayCertificates.push(latestMarksheet.rows[0]);
+
+    for (let i = 0; i < displayCertificates.length; i++) {
+      const cert = displayCertificates[i];
+      const verificationUrl = `https://eduverse-portal.up.railway.app/dashboard/verify?id=${cert.cert_id}`;
+      cert.qrCode = await QRCode.toDataURL(verificationUrl);
+    }
 
     const studentData = {
       name: fullName,
@@ -553,11 +685,9 @@ app.get("/download/:cert_id", requireRole("student"), async (req, res) => {
     );
     doc.pipe(res);
 
-    // Outer Border
     doc.rect(20, 20, doc.page.width - 40, doc.page.height - 40).stroke();
     doc.moveDown(1.5);
 
-    // Header Title
     doc
       .fontSize(32)
       .text("National Institute of Technology", { align: "center" });
@@ -568,18 +698,14 @@ app.get("/download/:cert_id", requireRole("student"), async (req, res) => {
     doc.fillColor("black");
     doc.moveDown(1.5);
 
-    // CONDITIONAL LAYOUT: If it's a semester marksheet, render the grade table
     if (cert.doc_type === "Semester Marksheet") {
       doc.fontSize(11);
-
       const startY = doc.y;
 
-      // Left-aligned column (X: 50)
       doc.text(`Student Name: ${cert.student_name}`, 50, startY);
       doc.text(`Branch: ${cert.branch}`, 50, startY + 18);
       doc.text(`Degree: ${cert.degree}`, 50, startY + 36);
 
-      // Right-aligned column (Mirrored perfectly against the right margin at X: 50, width: 740)
       doc.text(`Roll Number: ${cert.roll_no}`, 50, startY, {
         align: "right",
         width: 740,
@@ -589,7 +715,7 @@ app.get("/download/:cert_id", requireRole("student"), async (req, res) => {
         width: 740,
       });
 
-      doc.y = startY + 65; // Move past the header block cleanly
+      doc.y = startY + 65;
 
       doc
         .fontSize(13)
@@ -659,7 +785,6 @@ app.get("/download/:cert_id", requireRole("student"), async (req, res) => {
         .fontSize(12)
         .text("SGPA: 9.15 / 10.0", 50, doc.y + 5, { align: "right" });
     } else {
-      // Standard Degree Layout
       doc.moveDown(1);
       doc
         .fontSize(16)
@@ -668,9 +793,7 @@ app.get("/download/:cert_id", requireRole("student"), async (req, res) => {
       doc.moveDown(1);
       doc.text(
         `Has successfully completed the requirements for the degree of`,
-        {
-          align: "center",
-        },
+        { align: "center" },
       );
       doc
         .fontSize(18)
@@ -678,7 +801,6 @@ app.get("/download/:cert_id", requireRole("student"), async (req, res) => {
       doc.moveDown(3);
     }
 
-    // Footer Hashes and Security IDs
     doc.fontSize(9).fillColor("gray");
     doc.text(`Document Hash: ${cert.document_hash}`, 50, 520, {
       align: "center",
@@ -693,6 +815,68 @@ app.get("/download/:cert_id", requireRole("student"), async (req, res) => {
   } catch (err) {
     console.error("PDF generation error:", err);
     res.status(500).send("Error generating document.");
+  }
+});
+
+app.get("/download-qr/:cert_id", requireRole("student"), async (req, res) => {
+  const certId = req.params.cert_id;
+  const currentRollNo = req.session.user.loginId;
+
+  try {
+    const certQuery = await pool.query(
+      "SELECT * FROM certificates WHERE cert_id = $1 AND roll_no = $2",
+      [certId, currentRollNo],
+    );
+
+    if (certQuery.rows.length === 0) {
+      return res.status(403).send("Unauthorized Access or Document Not Found");
+    }
+
+    const cert = certQuery.rows[0];
+    const doc = new PDFDocument({ size: [300, 350], margin: 30 });
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=${cert.cert_id}-QR.pdf`,
+    );
+    doc.pipe(res);
+
+    const verificationUrl = `https://eduverse-portal.up.railway.app/dashboard/verify?id=${cert.cert_id}`;
+    const qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
+      width: 180,
+      margin: 1,
+    });
+
+    doc
+      .fontSize(14)
+      .fillColor("#0f172a")
+      .text("Certificate QR Code", { align: "center" });
+    doc.moveDown(0.2);
+    doc
+      .fontSize(10)
+      .fillColor("#2563eb")
+      .text(`ID: ${cert.cert_id}`, { align: "center" });
+
+    doc.image(qrCodeDataUrl, 60, 80, { width: 180 });
+
+    doc
+      .fontSize(8)
+      .fillColor("#64748b")
+      .text(
+        "Scan with any phone camera to trigger cryptographic verification.",
+        30,
+        280,
+        {
+          align: "center",
+          width: 240,
+        },
+      );
+
+    doc.end();
+  } catch (err) {
+    console.error("QR PDF generation error:", err);
+    res.status(500).send("Error generating QR document.");
   }
 });
 

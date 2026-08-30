@@ -1,98 +1,132 @@
 /* --- Navbar Box --- */
 .navbar {
-  background-color: #081728; /* The sleek dark blue from Figma */
-  display: flex; /* Puts Logo on the left, Links on the right */
+  background-color: #081728;
+  /* The sleek dark blue from Figma */
+  display: flex;
+  /* Puts Logo on the left, Links on the right */
   justify-content: space-between;
-  align-items: center; /* Centers them vertically */
-  padding: 20px 50px; /* Adds breathing room inside the dark bar */
+  align-items: center;
+  /* Centers them vertically */
+  padding: 20px 50px;
+  /* Adds breathing room inside the dark bar */
 }
 
 /* --- The Logo --- */
 .logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
+  display: flex;
+  align-items: center;
+  color: #ffffff; /* This forces the text to be white */
+  font-size: 1.25rem; /* Adjust if you want the text bigger/smaller */
+  font-weight: 700;
+  text-decoration: none;
 }
 
 /* --- The Links Container --- */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 30px; /* Puts a nice gap between Register and Login */
+  gap: 30px;
+  /* Puts a nice gap between Register and Login */
 }
 
 /* --- Register Text --- */
 .register-link {
-  background-color: #21a1f1; /* The light blue button color */
+  background-color: #21a1f1;
+  /* The light blue button color */
   color: white;
   padding: 10px 24px;
-  border-radius: 6px; /* Rounds the edges */
+  border-radius: 6px;
+  /* Rounds the edges */
   text-decoration: none;
   font-weight: bold;
 }
 
 /* --- Login Button --- */
 .login-btn {
-  background-color: #21a1f1; /* The light blue button color */
+  background-color: #21a1f1;
+  /* The light blue button color */
   color: white;
   padding: 10px 24px;
-  border-radius: 6px; /* Rounds the edges */
+  border-radius: 6px;
+  /* Rounds the edges */
   text-decoration: none;
   font-weight: bold;
 }
+
 /* --- Main Hero Section --- */
 .hero {
-  padding: 20px 50px; /* Pushes the content down from the navbar */
-  max-width: 1300px; /* Stops it from stretching too wide on giant screens */
-  margin: 0 auto; /* Centers this giant box in the middle of the screen */
+  padding: 20px 50px;
+  /* Pushes the content down from the navbar */
+  max-width: 1300px;
+  /* Stops it from stretching too wide on giant screens */
+  margin: 0 auto;
+  /* Centers this giant box in the middle of the screen */
 }
 
 /* Left Side Text */
 h1 {
-  font-size: 64px; /* Makes the text massive */
-  line-height: 1.1; /* Squeezes the top and bottom lines slightly closer */
-  margin-bottom: 20px; /* Adds breathing room below the title */
-  color: #1a1a1a; /* Almost black */
+  font-size: 64px;
+  /* Makes the text massive */
+  line-height: 1.1;
+  /* Squeezes the top and bottom lines slightly closer */
+  margin-bottom: 20px;
+  /* Adds breathing room below the title */
+  color: #1a1a1a;
+  /* Almost black */
 }
 
 .highlight {
-  color: #21a1f1; /* Paints "Spot fakes" blue */
+  color: #21a1f1;
+  /* Paints "Spot fakes" blue */
 }
 
 .subtitle {
   font-size: 20px;
-  color: #555; /* Dark grey */
-  margin-bottom: 40px; /* Pushes the buttons further down */
+  color: #555;
+  /* Dark grey */
+  margin-bottom: 40px;
+  /* Pushes the buttons further down */
 }
 
 /* Buttons */
 .cta-group {
-  display: flex; /* Puts blue button and empty box side-by-side */
-  gap: 15px; /* Space between them */
-  margin-bottom: 40px; /* Pushes the checkmarks further down */
+  display: flex;
+  /* Puts blue button and empty box side-by-side */
+  gap: 15px;
+  /* Space between them */
+  margin-bottom: 40px;
+  /* Pushes the checkmarks further down */
 }
 
 .explore-btn {
-  background-color: #1c6b8c; /* Darker blue for the main button */
+  background-color: #1c6b8c;
+  /* Darker blue for the main button */
   color: white;
-  padding: 14px 28px; /* Makes the button thick and clickable */
-  border: none; /* Removes the ugly default browser border */
-  border-radius: 8px; /* Rounds the corners */
+  padding: 14px 28px;
+  /* Makes the button thick and clickable */
+  border: none;
+  /* Removes the ugly default browser border */
+  border-radius: 8px;
+  /* Rounds the corners */
   font-size: 16px;
   font-weight: bold;
-  cursor: pointer; /* Turns your mouse into a pointing hand when hovering */
+  cursor: pointer;
+  /* Turns your mouse into a pointing hand when hovering */
 }
 
 .empty-box {
-  border: 1px solid #ddd; /* Creates a light grey outline */
+  border: 1px solid #ddd;
+  /* Creates a light grey outline */
   border-radius: 8px;
-  width: 150px; /* Forces it to be wide like the Figma design */
+  width: 150px;
+  /* Forces it to be wide like the Figma design */
   background: #fafafa;
 }
 
 /* Checkmarks */
 .features {
-  display: flex; /* Puts the three text items side-by-side */
+  display: flex;
+  /* Puts the three text items side-by-side */
   gap: 20px;
   color: #555;
   font-size: 14px;
@@ -101,27 +135,38 @@ h1 {
 
 .feature-item {
   display: flex;
-  align-items: center; /* Vertically aligns the checkmark icon with the text */
-  gap: 8px; /* Tiny space between the checkmark and the words */
+  align-items: center;
+  /* Vertically aligns the checkmark icon with the text */
+  gap: 8px;
+  /* Tiny space between the checkmark and the words */
 }
 
 .checkmark {
-  color: #21a1f1; /* Paints just the checkmark blue */
+  color: #21a1f1;
+  /* Paints just the checkmark blue */
   font-weight: bold;
 }
 
 /* --- Snap Left & Right Side-by-Side --- */
 .hero {
-  display: flex; /* Turns the main hero box into a row */
-  gap: 60px; /* Space between the left text and right mockup */
-  align-items: center; /* Vertically centers everything */
+  display: flex;
+  /* Turns the main hero box into a row */
+  gap: 60px;
+  /* Space between the left text and right mockup */
+  align-items: center;
+  /* Vertically centers everything */
 }
+
 .hero-left {
   flex: 1.2;
-} /* Text gets slightly more space */
+}
+
+/* Text gets slightly more space */
 .hero-right {
   flex: 1;
-} /* Image gets slightly less space */
+}
+
+/* Image gets slightly less space */
 
 /* --- Right Side Mockup Styling --- */
 .mockup-container {
@@ -138,21 +183,27 @@ h1 {
   align-items: center;
   margin-bottom: 20px;
 }
+
 .dots {
   display: flex;
   gap: 6px;
 }
+
 .dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-} /* border-radius: 50% makes a perfect circle */
+}
+
+/* border-radius: 50% makes a perfect circle */
 .dot.red {
   background: #ff5f56;
 }
+
 .dot.yellow {
   background: #ffbd2e;
 }
+
 .dot.green {
   background: #27c93f;
 }
@@ -169,7 +220,8 @@ h1 {
 /* 2. Dashboard Placeholder Box */
 .dashboard-img {
   background: #d3d3d3;
-  height: 250px; /* Forces the box to be tall like an image */
+  height: 250px;
+  /* Forces the box to be tall like an image */
   border-radius: 10px;
   margin-bottom: 20px;
   display: flex;
@@ -184,19 +236,24 @@ h1 {
   display: flex;
   gap: 20px;
 }
+
 .stat-card {
-  flex: 1; /* Makes both cards exactly the same width */
+  flex: 1;
+  /* Makes both cards exactly the same width */
   border: 1px solid #eaeaea;
   border-radius: 10px;
   padding: 20px;
   background: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02); /* Adds a tiny shadow for 3D depth */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  /* Adds a tiny shadow for 3D depth */
 }
+
 .stat-title {
   font-size: 14px;
   color: #777;
   margin-bottom: 8px;
 }
+
 .stat-value {
   font-size: 28px;
   font-weight: 900;
@@ -205,37 +262,51 @@ h1 {
 
 /* Styling for the Hash Result */
 .hash-result-box {
-  margin-bottom: 40px; /* Matches the spacing of the other elements */
+  margin-bottom: 40px;
+  /* Matches the spacing of the other elements */
   padding: 15px;
-  background-color: #f1f8fc; /* Very light blue */
-  border-left: 4px solid #21a1f1; /* A thick blue line on the left side */
-  font-family: monospace; /* Makes it look like coding text */
+  background-color: #f1f8fc;
+  /* Very light blue */
+  border-left: 4px solid #21a1f1;
+  /* A thick blue line on the left side */
+  font-family: monospace;
+  /* Makes it look like coding text */
   font-size: 14px;
   color: #333;
-  word-break: break-all; /* Forces the giant 64-character hash to wrap if screen is small */
+  word-break: break-all;
+  /* Forces the giant 64-character hash to wrap if screen is small */
 }
 
 /* --- Logo Banner Section --- */
 .logo-banner {
-  background-color: #f8f9fa; /* The light gray background */
-  padding: 40px 0; /* 40px padding top and bottom, 0 on the sides */
-  text-align: center; /* Centers the title text */
-  margin-top: 40px; /* Pushes it down slightly from the Hero section */
+  background-color: #f8f9fa;
+  /* The light gray background */
+  padding: 40px 0;
+  /* 40px padding top and bottom, 0 on the sides */
+  text-align: center;
+  /* Centers the title text */
+  margin-top: 40px;
+  /* Pushes it down slightly from the Hero section */
 }
 
 .banner-title {
   font-size: 12px;
   color: #777;
   font-weight: 700;
-  letter-spacing: 1px; /* Spreads the letters out slightly for a premium look */
+  letter-spacing: 1px;
+  /* Spreads the letters out slightly for a premium look */
   margin-bottom: 25px;
 }
 
 .logo-track {
-  display: flex; /* Puts all the logos in a single horizontal row */
-  justify-content: center; /* Centers the row of logos in the middle of the screen */
-  gap: 50px; /* Adds 50px of space between each logo */
-  flex-wrap: wrap; /* If the screen is too small, this lets them wrap to the next line safely */
+  display: flex;
+  /* Puts all the logos in a single horizontal row */
+  justify-content: center;
+  /* Centers the row of logos in the middle of the screen */
+  gap: 50px;
+  /* Adds 50px of space between each logo */
+  flex-wrap: wrap;
+  /* If the screen is too small, this lets them wrap to the next line safely */
 }
 
 .logo-item {
@@ -280,7 +351,8 @@ h1 {
 /* The Hover Effect: Makes it float and highlights the border */
 .state-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(33, 161, 241, 0.1); /* Subtle brand-colored shadow */
+  box-shadow: 0 20px 40px rgba(33, 161, 241, 0.1);
+  /* Subtle brand-colored shadow */
   border-color: #21a1f1;
 }
 
@@ -294,7 +366,8 @@ h1 {
 
 .state-header h2 {
   font-size: 1.8rem;
-  color: #1e1b4b; /* Keeps that deep navy blue */
+  color: #1e1b4b;
+  /* Keeps that deep navy blue */
   margin: 0;
 }
 
@@ -305,7 +378,8 @@ h1 {
 }
 
 .state-card:hover .state-icon {
-  opacity: 1; /* Icon brightens on hover */
+  opacity: 1;
+  /* Icon brightens on hover */
 }
 
 .state-stats {
@@ -329,9 +403,11 @@ h1 {
 }
 
 .state-card p {
-  color: #777; /* Light gray */
+  color: #777;
+  /* Light gray */
   font-size: 13px;
-  line-height: 1.6; /* Adds space between the two lines of text */
+  line-height: 1.6;
+  /* Adds space between the two lines of text */
 }
 
 /* ========================================= */
@@ -355,12 +431,14 @@ h1 {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
 .state-carousel-track::-webkit-scrollbar {
   display: none;
 }
 
 .state-item-card {
-  flex: 0 0 240px; /* Forces cards to stay a specific width */
+  flex: 0 0 240px;
+  /* Forces cards to stay a specific width */
   display: flex;
   align-items: center;
   padding: 16px 20px;
@@ -383,7 +461,8 @@ h1 {
 .state-icon-circle {
   width: 52px;
   height: 52px;
-  background-color: #f3f0ff; /* Very soft purple */
+  background-color: #f3f0ff;
+  /* Very soft purple */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -417,8 +496,10 @@ h1 {
   bottom: 12px;
   right: 14px;
   font-size: 1.2rem;
-  color: #8b5cf6; /* Brand purple */
-  opacity: 0; /* Hidden by default */
+  color: #8b5cf6;
+  /* Brand purple */
+  opacity: 0;
+  /* Hidden by default */
   transform: translateX(-10px);
   transition: all 0.3s ease;
 }
@@ -446,6 +527,7 @@ h1 {
   padding: 20px 10px;
   scrollbar-width: none;
 }
+
 .neo-slider-track::-webkit-scrollbar {
   display: none;
 }
@@ -499,6 +581,7 @@ h1 {
   opacity: 0.5;
   transition: all 0.5s ease;
 }
+
 .neo-card:hover .abstract-glow {
   transform: scale(1.3);
   opacity: 0.8;
@@ -507,16 +590,34 @@ h1 {
 /* Unique state aura colors */
 .glow-odisha {
   background: #60a5fa;
-} /* Blue */
+}
+
+/* Blue */
 .glow-rajasthan {
   background: #f472b6;
-} /* Pink */
+}
+
+/* Pink */
 .glow-assam {
   background: #34d399;
-} /* Green */
+}
+
+/* Green */
 .glow-gujarat {
-  background: #fb923c;
-} /* Orange */
+  background: #953cfb;
+}
+
+.glow-kerala {
+  background: #f9e610
+}
+
+.glow-up {
+  background: #10d2f9
+}
+
+.glow-maharashtra {
+  background: #f96910
+}
 
 .neo-content {
   position: relative;
@@ -536,6 +637,7 @@ h1 {
   letter-spacing: 1px;
   margin-bottom: 12px;
 }
+
 .pulse-dot {
   width: 8px;
   height: 8px;
@@ -544,13 +646,16 @@ h1 {
   box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
   animation: pulse 1.5s infinite;
 }
+
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
   }
+
   70% {
     box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
   }
@@ -603,7 +708,8 @@ h1 {
   display: flex;
   gap: 30px;
   max-width: 1300px;
-  margin: 0 auto 100px auto; /* 100px margin at the bottom so the page doesn't abruptly end */
+  margin: 0 auto 100px auto;
+  /* 100px margin at the bottom so the page doesn't abruptly end */
   padding: 0 50px;
 }
 
@@ -611,10 +717,13 @@ h1 {
   background: white;
   border: 1px solid #eaeaea;
   border-radius: 12px;
-  flex: 1; /* Makes all 3 cards equal width */
+  flex: 1;
+  /* Makes all 3 cards equal width */
   display: flex;
-  flex-direction: column; /* Stacks the image, content, and footer vertically */
-  overflow: hidden; /* Prevents the top images from breaking the rounded corners */
+  flex-direction: column;
+  /* Stacks the image, content, and footer vertically */
+  overflow: hidden;
+  /* Prevents the top images from breaking the rounded corners */
 }
 
 /* Image Placeholders */
@@ -631,7 +740,8 @@ h1 {
 /* Text Content Area */
 .card-content {
   padding: 25px;
-  flex-grow: 1; /* Pushes the footer all the way to the bottom */
+  flex-grow: 1;
+  /* Pushes the footer all the way to the bottom */
 }
 
 .badge {
@@ -653,7 +763,8 @@ h1 {
 
 /* Footer Section */
 .card-footer {
-  border-top: 1px solid #eaeaea; /* Light line separating the footer */
+  border-top: 1px solid #eaeaea;
+  /* Light line separating the footer */
   padding: 15px 25px;
   color: #999;
   font-size: 12px;
@@ -662,43 +773,58 @@ h1 {
 
 /* --- How It Works Section --- */
 .method-section {
-  max-width: 1100px; /* Slightly narrower than the hero section to keep text readable */
-  margin: 80px auto; /* 80px space on top/bottom, auto centers it */
+  max-width: 1100px;
+  /* Slightly narrower than the hero section to keep text readable */
+  margin: 80px auto;
+  /* 80px space on top/bottom, auto centers it */
   padding: 0 50px;
-  text-align: center; /* Centers the main title */
+  text-align: center;
+  /* Centers the main title */
 }
 
 .method-title {
-  color: #111a28; /* Deep dark blue */
+  color: #111a28;
+  /* Deep dark blue */
   font-size: 32px;
   font-weight: 800;
-  margin-bottom: 60px; /* Big gap before the steps start */
+  margin-bottom: 60px;
+  /* Big gap before the steps start */
 }
 
 /* The Row of Steps */
 .method-steps {
-  display: flex; /* Puts the 3 steps in a row */
-  gap: 40px; /* Space between each step */
-  text-align: left; /* Forces the text inside the steps back to the left */
+  display: flex;
+  /* Puts the 3 steps in a row */
+  gap: 40px;
+  /* Space between each step */
+  text-align: left;
+  /* Forces the text inside the steps back to the left */
 }
 
 .step-card {
-  flex: 1; /* Divides the space perfectly into 3 equal columns */
+  flex: 1;
+  /* Divides the space perfectly into 3 equal columns */
 }
 
 /* The Blue Circles */
 .step-number {
-  background-color: #e8f5fd; /* Light blue background */
-  color: #21a1f1; /* Bright blue text */
+  background-color: #e8f5fd;
+  /* Light blue background */
+  color: #21a1f1;
+  /* Bright blue text */
   width: 55px;
   height: 55px;
-  border-radius: 50%; /* Magic trick: turns a square into a perfect circle */
+  border-radius: 50%;
+  /* Magic trick: turns a square into a perfect circle */
   display: flex;
-  align-items: center; /* Vertically centers the number inside the circle */
-  justify-content: center; /* Horizontally centers the number inside the circle */
+  align-items: center;
+  /* Vertically centers the number inside the circle */
+  justify-content: center;
+  /* Horizontally centers the number inside the circle */
   font-size: 18px;
   font-weight: 800;
-  margin-bottom: 20px; /* Space below the circle */
+  margin-bottom: 20px;
+  /* Space below the circle */
 }
 
 .step-card h3 {
@@ -716,22 +842,28 @@ h1 {
 
 /* --- About Us Section --- */
 .about-section {
-  display: flex; /* Splits the section into left/right columns */
-  align-items: center; /* Vertically centers the text with the image */
+  display: flex;
+  /* Splits the section into left/right columns */
+  align-items: center;
+  /* Vertically centers the text with the image */
   gap: 100px;
   max-width: 1200px;
   margin: 80px auto;
   padding: 60px 50px;
-  background-color: #fafbfc; /* A very subtle off-white/gray background */
+  background-color: #fafbfc;
+  /* A very subtle off-white/gray background */
   border-radius: 20px;
 }
 
 .about-content {
   flex: 1;
 }
+
 .about-image {
   flex: 1.2;
-} /* Gives the image slightly more space than the text */
+}
+
+/* Gives the image slightly more space than the text */
 
 .about-title {
   font-size: 36px;
@@ -750,14 +882,16 @@ h1 {
 /* Feature List Styling */
 .about-features {
   display: flex;
-  flex-direction: column; /* Stacks the three features vertically */
+  flex-direction: column;
+  /* Stacks the three features vertically */
   gap: 25px;
 }
 
 .feature-row {
   display: flex;
   gap: 15px;
-  align-items: flex-start; /* Aligns the blue circle with the top of the text */
+  align-items: flex-start;
+  /* Aligns the blue circle with the top of the text */
 }
 
 /* The Solid Blue Checkmark Circle */
@@ -772,7 +906,8 @@ h1 {
   justify-content: center;
   font-size: 14px;
   font-weight: bold;
-  flex-shrink: 0; /* Crucial: Prevents the circle from squishing if the text gets too long! */
+  flex-shrink: 0;
+  /* Crucial: Prevents the circle from squishing if the text gets too long! */
 }
 
 .feature-text h4 {
@@ -792,8 +927,10 @@ h1 {
 /* Real Sandbox Image Styling */
 .sandbox-img {
   width: 100%;
-  height: 350px; /* Forces the image to be tall like the Figma design */
-  object-fit: cover; /* MAGIC TRICK: Fills the box perfectly without squishing */
+  height: 350px;
+  /* Forces the image to be tall like the Figma design */
+  object-fit: cover;
+  /* MAGIC TRICK: Fills the box perfectly without squishing */
   border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   display: block;
@@ -817,7 +954,8 @@ h1 {
 .testimonials-grid {
   display: flex;
   gap: 30px;
-  align-items: stretch; /* Forces all cards to stretch to the exact same height */
+  align-items: stretch;
+  /* Forces all cards to stretch to the exact same height */
 }
 
 .testimonial-card {
@@ -828,11 +966,13 @@ h1 {
   padding: 35px 30px;
   text-align: left;
   display: flex;
-  flex-direction: column; /* Turns the card into a flex column */
+  flex-direction: column;
+  /* Turns the card into a flex column */
 }
 
 .stars {
-  color: #f59e0b; /* The nice gold/orange color */
+  color: #f59e0b;
+  /* The nice gold/orange color */
   font-size: 18px;
   margin-bottom: 20px;
   letter-spacing: 2px;
@@ -852,15 +992,18 @@ h1 {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-top: auto; /* THIS IS THE MAGIC FIX: It shoves the author block to the exact bottom of the card */
+  margin-top: auto;
+  /* THIS IS THE MAGIC FIX: It shoves the author block to the exact bottom of the card */
 }
 
 .avatar {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background-color: #94a3b8 !important; /* The !important forces the color change */
-  flex-shrink: 0; /* Prevents the circle from squishing */
+  background-color: #94a3b8 !important;
+  /* The !important forces the color change */
+  flex-shrink: 0;
+  /* Prevents the circle from squishing */
 }
 
 .author-info h4 {
@@ -875,8 +1018,10 @@ h1 {
   color: #777;
 
   /* THE ALIGNMENT FIX */
-  min-height: 32px; /* Forces every job title to take up exactly 2 lines of space */
-  line-height: 1.4; /* Keeps the text spacing clean */
+  min-height: 32px;
+  /* Forces every job title to take up exactly 2 lines of space */
+  line-height: 1.4;
+  /* Keeps the text spacing clean */
   margin-top: 2px;
 }
 
@@ -887,7 +1032,8 @@ h1 {
 
   /* 2. Sizing constraints */
   width: 90%;
-  max-width: 1100px; /* Matches the width of your carousel! */
+  max-width: 1100px;
+  /* Matches the width of your carousel! */
 
   /* 3. Make it a clean, floating card */
   border-radius: 24px;
@@ -958,7 +1104,8 @@ h1 {
 
 /* --- Footer Section --- */
 .footer-section {
-  background-color: #081728; /* Darker navy blue footer */
+  background-color: #081728;
+  /* Darker navy blue footer */
   color: #94a3b8;
   padding: 80px 50px 40px 50px;
 }
@@ -1051,7 +1198,8 @@ h1 {
 .terminal-box {
   width: 100%;
   height: 100%;
-  background-color: #0f172a; /* Keep your existing dark theme */
+  background-color: #0f172a;
+  /* Keep your existing dark theme */
   border-radius: 12px;
   padding: 1.5rem;
   font-family: "Courier New", Courier, monospace;
@@ -1077,7 +1225,8 @@ h1 {
 }
 
 .terminal-body {
-  color: #22c55e; /* Hacker terminal green */
+  color: #22c55e;
+  /* Hacker terminal green */
   font-size: 1.1rem;
   line-height: 1.6;
 }

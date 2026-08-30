@@ -14,11 +14,13 @@ body {
 
 /* Dark Header */
 header {
-  background-color: #0d1527;
-  padding: 0.9rem 2.5rem;
+  background-color: #0b1120;
+  border-bottom: 1px solid #1e293b;
+  padding: 0.75rem 2rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* <-- This forces everything to the left */
+  /* Keep any other properties you have here like position: sticky, etc. */
 }
 
 .brand-section {
@@ -27,15 +29,12 @@ header {
   gap: 12px;
 }
 
-.brand-icon {
-  background-color: #3b82f6;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+/* Image Logo Style */
+.brand-logo-img {
+  height: 38px;
+  width: auto;
+  border-radius: 6px;
+  object-fit: contain;
 }
 
 .brand-text h2 {

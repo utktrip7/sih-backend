@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EduVerse - Administration Console</title>
+    <title>Abhedya - Administration Console</title>
 
     <!-- Links to your specific Overview CSS file -->
-  <link rel="stylesheet" href="/css/pages/administration_login.css">
+    <link rel="stylesheet" href="/css/pages/administration_login.css">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
             </div>
-            <span class="logo-text">EduVerse</span>
+            <span class="logo-text">Abhedya</span>
         </div>
 
         <div class="header-text">
@@ -77,22 +77,29 @@
 
         const adminForm = document.querySelector("form");
         const overlay = document.getElementById("transition-overlay");
+        const submitBtn = document.querySelector(".submit-btn");
 
         adminForm.addEventListener("submit", function (e) {
             e.preventDefault();
 
+            // 1. Instant Visual Feedback
+            submitBtn.innerText = "Checking...";
+            submitBtn.style.opacity = "0.7";
+            submitBtn.disabled = true;
+
+            // 2. Show the overlay
             overlay.style.display = "flex";
 
             setTimeout(() => {
                 overlay.style.opacity = "1";
             }, 10);
 
-            setTimeout(() => {
-                adminForm.submit();
-            }, 2500);
+            // 3. Submit immediately. The animation will play until the server
+            // responds with the dashboard, or reloads the page with an error.
+            adminForm.submit();
         });
     </script>
-    
+
 </body>
 
 </html>

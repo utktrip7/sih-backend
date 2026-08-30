@@ -35,15 +35,12 @@ header {
   gap: 12px;
 }
 
-.brand-icon {
-  background-color: #3b82f6;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
+/* New Image Logo Style (Replaced .brand-icon) */
+.brand-logo-img {
+  height: 38px;
+  width: auto;
+  border-radius: 6px;
+  object-fit: contain;
 }
 
 .brand-text h2 {
@@ -362,4 +359,60 @@ select:focus {
   border: 1px solid #e2e8f0;
   padding: 6px;
   background: #ffffff;
+}
+
+/* =========================================
+   NEW: Batch Processing Upload Area
+   ========================================= */
+.batch-card {
+  text-align: center;
+}
+
+.batch-card form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Styling the file input to look like a drop zone */
+.batch-card input[type="file"] {
+  width: 100%;
+  max-width: 600px;
+  background-color: #f8fafc;
+  border: 2px dashed #cbd5e1 !important;
+  border-radius: 12px !important;
+  padding: 2.5rem 2rem !important;
+  color: #475569;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom hover effect for the file drop area */
+.batch-card input[type="file"]:hover,
+.batch-card input[type="file"]:focus {
+  border-color: #3b82f6 !important;
+  background-color: #eff6ff;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+/* Styling the custom file upload button inside the input (Webkit browsers) */
+.batch-card input[type="file"]::file-selector-button {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: all 0.2s;
+}
+
+.batch-card input[type="file"]::file-selector-button:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
 }

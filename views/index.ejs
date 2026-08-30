@@ -36,13 +36,14 @@
         aspect-ratio: 4/3;
         overflow: hidden;
         display: flex;
-        background-color: #f4f4f4;
+        background-color: #f8fafc;
       }
 
+      /* MUST TARGET 'img', NOT 'svg' */
       .card-img img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
         transition: transform 0.3s ease;
       }
 
@@ -51,7 +52,7 @@
       }
 
       /* ========================================= */
-      /* NEW: EduVerse Screenshot Carousel Styles  */
+      /* NEW: Abhedya Screenshot Carousel Styles  */
       /* ========================================= */
       .carousel-section {
         padding: 4rem 2rem;
@@ -59,7 +60,8 @@
         flex-direction: column;
         align-items: center;
         background-color: #f8fafc;
-        overflow: hidden; /* Prevents horizontal scrollbars from peeking slides */
+        overflow: hidden;
+        /* Prevents horizontal scrollbars from peeking slides */
       }
 
       .carousel-container {
@@ -71,10 +73,12 @@
 
       .carousel-track {
         display: flex;
-        gap: 2%; /* Space between slides */
+        gap: 2%;
+        /* Space between slides */
         transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         width: 100%;
-        align-items: center; /* Centers the scaled slides vertically */
+        align-items: center;
+        /* Centers the scaled slides vertically */
       }
 
       .carousel-slide {
@@ -110,7 +114,8 @@
       .carousel-controls {
         position: absolute;
         bottom: 24px;
-        right: 20%; /* Adjusted slightly inward to sit on the active slide */
+        right: 20%;
+        /* Adjusted slightly inward to sit on the active slide */
         display: flex;
         gap: 12px;
         z-index: 10;
@@ -147,7 +152,10 @@
 
   <body>
     <nav class="navbar">
-      <div class="logo">🎓 Abhedya</div>
+      <div class="logo">
+        <img src="/images/logo.jpeg" alt="Abhedya Logo" style="height: 38px; width: auto; border-radius: 6px; vertical-align: middle; margin-right: 8px;" />
+        Abhedya
+      </div>
       <div class="nav-links">
         <a href="/administration_login" class="register-link"
           >Administration Login</a
@@ -200,7 +208,7 @@
               <div class="dot yellow"></div>
               <div class="dot green"></div>
             </div>
-            <div class="url-bar">eduverse.io/dashboard</div>
+            <div class="url-bar">Abhedya.io/dashboard</div>
           </div>
 
           <div class="dashboard-img">[ Dashboard Image Goes Here ]</div>
@@ -360,6 +368,96 @@
             </svg>
           </div>
         </div>
+
+        <!-- Card 5: Kerala -->
+        <div class="neo-card" onclick="slideNextNeo()">
+          <div class="abstract-glow glow-kerala"></div>
+          <div class="cyber-grid"></div>
+
+          <div class="neo-content">
+            <div class="live-status">
+              <div class="pulse-dot"></div>
+              Active Hub
+            </div>
+            <h3>Kerala</h3>
+            <span class="neo-tag">90+ Issuers</span>
+          </div>
+
+          <div class="neo-arrow-btn">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card 6: Uttar Pradesh -->
+        <div class="neo-card" onclick="slideNextNeo()">
+          <div class="abstract-glow glow-up"></div>
+          <div class="cyber-grid"></div>
+
+          <div class="neo-content">
+            <div class="live-status">
+              <div class="pulse-dot"></div>
+              Active Hub
+            </div>
+            <h3>Uttar Pradesh</h3>
+            <span class="neo-tag">210+ Issuers</span>
+          </div>
+
+          <div class="neo-arrow-btn">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card 7: Maharashtra -->
+        <div class="neo-card" onclick="slideNextNeo()">
+          <div class="abstract-glow glow-maharashtra"></div>
+          <div class="cyber-grid"></div>
+
+          <div class="neo-content">
+            <div class="live-status">
+              <div class="pulse-dot"></div>
+              Active Hub
+            </div>
+            <h3>Maharashtra</h3>
+            <span class="neo-tag">340+ Issuers</span>
+          </div>
+
+          <div class="neo-arrow-btn">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -367,7 +465,7 @@
     <div class="categories-section">
       <div class="category-card">
         <div class="card-img">
-          <img src="/images/academic-img.jpeg" alt="Academic Certificates" />
+          <img src="/images/academic.jpeg" alt="Academic Certificates" />
         </div>
         <div class="card-content">
           <span class="badge">ACADEMIC</span>
@@ -394,7 +492,7 @@
       <div class="category-card">
         <div class="card-img">
           <img
-            src="/images/extracurricular-img.png"
+            src="/images/extracurricular.jpeg"
             alt="Extra-curricular Activities"
           />
         </div>
@@ -419,7 +517,7 @@
           color: #0f172a;
         "
       >
-        How the EduVerse Method Operates
+        How the Abhedya Method Operates
       </h2>
       <p style="text-align: center; color: #64748b; margin-bottom: 2rem">
         A seamless journey from credential generation to public verification.
@@ -433,28 +531,28 @@
             <!-- ⚠️ Make sure to save your actual screenshots in your public/img folder! -->
             <img
               src="/images/screenshot-dashboard.png"
-              alt="EduVerse Admin Dashboard"
+              alt="Abhedya Admin Dashboard"
             />
           </div>
           <!-- Slide 2 -->
           <div class="carousel-slide">
             <img
               src="/images/screenshot-issue.png"
-              alt="EduVerse Issuance Page"
+              alt="Abhedya Issuance Page"
             />
           </div>
           <!-- Slide 3 -->
           <div class="carousel-slide">
             <img
               src="/images/screenshot-verify.png"
-              alt="EduVerse Verification Portal"
+              alt="Abhedya Verification Portal"
             />
           </div>
           <!-- Slide 4 -->
           <div class="carousel-slide">
             <img
               src="/images/screenshot-revoke.png"
-              alt="EduVerse Verification Portal"
+              alt="Abhedya Verification Portal"
             />
           </div>
         </div>
@@ -524,7 +622,7 @@
       <div class="about-content">
         <h2 class="about-title">About Us</h2>
         <p class="about-description">
-          We discarded passive video streams. EduVerse offers a playground where
+          We discarded passive video streams. Abhedya offers a playground where
           theory instantly morphs into real technical actions.
         </p>
 
@@ -659,7 +757,7 @@
       <div class="cta-banner-content">
         <h2>Elevate your team today</h2>
         <p>
-          Join thousands of organizations using the EduVerse engine to bridge
+          Join thousands of organizations using the Abhedya engine to bridge
           document verification gaps.
         </p>
       </div>
@@ -679,7 +777,7 @@
         <!-- Col 1: Brand Info -->
         <div class="footer-col brand-col">
           <div class="footer-logo">
-            <span class="logo-icon">🎓</span> EduVerse
+            <span class="logo-icon">🎓</span> Abhedya
           </div>
           <p>
             Expanding horizons globally with next-generation interactive
@@ -727,7 +825,7 @@
             <li><a href="#">About us</a></li>
             <li><a href="#">Press room kit</a></li>
             <li><a href="#">Global offices</a></li>
-            <li><a href="#">Careers at EduVerse</a></li>
+            <li><a href="#">Careers at Abhedya</a></li>
           </ul>
         </div>
       </div>
@@ -735,7 +833,7 @@
       <!-- Footer Bottom Bar -->
       <div class="footer-bottom">
         <p>
-          © 2026 EduVerse Interactive Technologies, Inc. All legal rights
+          © 2026 Abhedya Interactive Technologies, Inc. All legal rights
           secured.
         </p>
         <div class="footer-bottom-links">
@@ -915,7 +1013,7 @@
       document.addEventListener("DOMContentLoaded", () => {
         var typed = new Typed("#typed-output", {
           strings: [
-            `> Initializing EduVerse Cryptographic Engine...<br>
+            `> Initializing Abhedya Cryptographic Engine...<br>
          > Establishing secure node connection... [OK]<br>
          > Waiting for QR scan...`,
             `> QR Scan detected.<br>

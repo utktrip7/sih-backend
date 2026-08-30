@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EduVerse | Issue & Verify</title>
+  <title>Abhedya | Issue & Verify</title>
 
   <!-- Links to your specific Issue CSS file -->
   <link rel="stylesheet" href="/css/pages/issue.css">
@@ -16,13 +16,11 @@
   <header>
     <div class="brand-section">
       <div class="brand-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
+        <!-- Replace YOUR_LOGO.png with the exact file name of your image -->
+        <img src="/images/logo.jpeg" alt="Abhedya Logo" class="brand-logo-img">
       </div>
       <div class="brand-text">
-        <h2>EduVerse</h2>
+        <h2>Abhedya</h2>
         <span>Credential Console</span>
       </div>
     </div>
@@ -58,18 +56,6 @@
           Revocation Registry
         </a>
       </li>
-      <li>
-        <a href="/dashboard/ledger">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"/>
-            <rect x="14" y="3" width="7" height="7"/>
-            <rect x="3" y="14" width="7" height="7"/>
-            <rect x="14" y="14" width="7" height="7"/>
-            <path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4"/>
-          </svg>
-          Blockchain Ledger
-        </a>
-      </li>
     </ul>
 
     <div class="header-right">
@@ -98,27 +84,27 @@
         <form action="/generate-hash" method="POST">
           <div class="input-group">
             <label>Student Name</label>
-            <input type="text" name="studentName" placeholder="Enter student name..." required 
-                   value="<%= locals.credentialData ? credentialData.studentName : '' %>">
+            <input type="text" name="studentName" placeholder="Enter student name..." required
+              value="<%= locals.credentialData ? credentialData.studentName : '' %>">
           </div>
 
           <div class="form-row">
             <div class="input-group">
               <label>Roll Number</label>
               <input type="text" name="rollNo" placeholder="Enter roll number..." required
-                     value="<%= locals.credentialData ? credentialData.rollNo : '' %>">
+                value="<%= locals.credentialData ? credentialData.rollNo : '' %>">
             </div>
             <div class="input-group">
               <label>Degree</label>
-              <% 
-                const degrees = ["B.E.", "B.Tech", "B.Tech + M.Tech", "MBA", "M.Tech"];
-              %>
-              <select name="degree" required>
-                <option value="" disabled <%= !locals.credentialData ? 'selected' : '' %>>Select degree...</option>
-                <% degrees.forEach(function(deg) { %>
-                  <option value="<%= deg %>" <%= locals.credentialData && credentialData.degree === deg ? 'selected' : '' %>><%= deg %></option>
-                <% }); %>
-              </select>
+              <% const degrees=["B.E.", "B.Tech" , "B.Tech + M.Tech" , "MBA" , "M.Tech" ]; %>
+                <select name="degree" required>
+                  <option value="" disabled <%=!locals.credentialData ? 'selected' : '' %>>Select degree...</option>
+                  <% degrees.forEach(function(deg) { %>
+                    <option value="<%= deg %>" <%=locals.credentialData && credentialData.degree===deg ? 'selected' : ''
+                      %>><%= deg %>
+                    </option>
+                    <% }); %>
+                </select>
             </div>
           </div>
 
@@ -126,37 +112,37 @@
             <div class="input-group">
               <label>Graduation Year</label>
               <input type="number" name="gradYear" placeholder="Enter graduation year..." required
-                     value="<%= locals.credentialData ? credentialData.gradYear : '' %>">
+                value="<%= locals.credentialData ? credentialData.gradYear : '' %>">
             </div>
             <div class="input-group">
               <label>Branch</label>
-              <% 
-                const branches = [
-                  "Biomedical Engineering (B.Tech. - 4yrs)", "Biotechnology (B.Tech. - 4yrs)", "Civil Engineering (B.Tech. - 4yrs)",
-                  "Chemical Engineering (B.Tech. - 4yrs)", "Chemical Engineering (B.Tech. M.Tech Dual Degree - 5yrs)",
-                  "Ceramic Engineering (B.Tech. - 4yrs)", "Industrial Ceramic (B.Tech. M.Tech Dual Degree - 5yrs)",
-                  "Artificial Intelligence (B.Tech. - 4yrs)", "Computer Science and Engineering (B.Tech. - 4yrs)",
-                  "Chemistry (Integrated M.Sc. - 5yrs)", "Electronics and Communication Engineering (B.Tech. - 4yrs)",
-                  "Electronics and Instrumentation Engineering (B.Tech. - 4yrs)", "Electrical Engineering (B.Tech. - 4yrs)",
-                  "Food Process Engineering (B.Tech. - 4yrs)", "Industrial Design (B.Tech. - 4yrs)",
-                  "Life Science (Integrated M.Sc. - 5yrs)", "Mathematics and Computing (B.Tech. - 4yrs)",
-                  "Mathematics (Integrated M.Sc. - 5yrs)", "Mechanical Engineering (B.Tech. - 4yrs)",
-                  "Metallurgical and Materials Engineering (B.Tech. - 4yrs)",
-                  "Metallurgical and Materials Engineering (B.Tech. M.Tech Dual Degree - 5yrs)",
-                  "Mining Engineering (B.Tech. - 4yrs)", "Mining Engineering (B.Tech. M.Tech Dual Degree - 5yrs)",
-                  "Architecture (B.Arch. - 5yrs)", "Engineering Physics (B.Tech. - 4yrs)", "Physics (Integrated M.Sc. - 5yrs)"
-                ];
-              %>
-              <select name="branch" required>
-                <option value="" disabled <%= !locals.credentialData ? 'selected' : '' %>>Select branch...</option>
-                <% branches.forEach(function(b) { %>
-                  <option value="<%= b %>" <%= locals.credentialData && credentialData.branch === b ? 'selected' : '' %>><%= b %></option>
-                <% }); %>
-              </select>
+              <% const branches=[ "Biomedical Engineering (B.Tech. - 4yrs)" , "Biotechnology (B.Tech. - 4yrs)"
+                , "Civil Engineering (B.Tech. - 4yrs)" , "Chemical Engineering (B.Tech. - 4yrs)"
+                , "Chemical Engineering (B.Tech. M.Tech Dual Degree - 5yrs)" , "Ceramic Engineering (B.Tech. - 4yrs)"
+                , "Industrial Ceramic (B.Tech. M.Tech Dual Degree - 5yrs)" , "Artificial Intelligence (B.Tech. - 4yrs)"
+                , "Computer Science and Engineering (B.Tech. - 4yrs)" , "Chemistry (Integrated M.Sc. - 5yrs)"
+                , "Electronics and Communication Engineering (B.Tech. - 4yrs)"
+                , "Electronics and Instrumentation Engineering (B.Tech. - 4yrs)"
+                , "Electrical Engineering (B.Tech. - 4yrs)" , "Food Process Engineering (B.Tech. - 4yrs)"
+                , "Industrial Design (B.Tech. - 4yrs)" , "Life Science (Integrated M.Sc. - 5yrs)"
+                , "Mathematics and Computing (B.Tech. - 4yrs)" , "Mathematics (Integrated M.Sc. - 5yrs)"
+                , "Mechanical Engineering (B.Tech. - 4yrs)" , "Metallurgical and Materials Engineering (B.Tech. - 4yrs)"
+                , "Metallurgical and Materials Engineering (B.Tech. M.Tech Dual Degree - 5yrs)"
+                , "Mining Engineering (B.Tech. - 4yrs)" , "Mining Engineering (B.Tech. M.Tech Dual Degree - 5yrs)"
+                , "Architecture (B.Arch. - 5yrs)" , "Engineering Physics (B.Tech. - 4yrs)"
+                , "Physics (Integrated M.Sc. - 5yrs)" ]; %>
+                <select name="branch" required>
+                  <option value="" disabled <%=!locals.credentialData ? 'selected' : '' %>>Select branch...</option>
+                  <% branches.forEach(function(b) { %>
+                    <option value="<%= b %>" <%=locals.credentialData && credentialData.branch===b ? 'selected' : '' %>>
+                      <%= b %>
+                    </option>
+                    <% }); %>
+                </select>
             </div>
           </div>
 
-          <!-- NEW: Document Type Dropdown -->
+          <!-- Document Type Dropdown -->
           <div class="input-group" style="margin-top: 5px; margin-bottom: 20px;">
             <label>Document Type</label>
             <select name="docType" required>
@@ -174,7 +160,8 @@
       <div class="card">
         <span class="card-badge">OUTPUT PREVIEW</span>
         <h3 class="card-title">Generated Credential</h3>
-        <p class="card-desc">Every issued record is hashed with SHA-256 and signed with the institution's private key.</p>
+        <p class="card-desc">Every issued record is hashed with SHA-256 and signed with the institution's private key.
+        </p>
 
         <% if (!locals.credentialData) { %>
           <!-- EMPTY STATE -->
@@ -182,48 +169,75 @@
             <div class="qr-icon">🔲</div>
             <p>Fill in the form and issue a certificate to generate its hash, signature, and QR code.</p>
           </div>
-        <% } else { %>
-          <!-- SUCCESS STATE -->
-          <div class="success-state-box">
-            <div class="success-badge">✅ Credential Secured</div>
+          <% } else { %>
+            <!-- SUCCESS STATE -->
+            <div class="success-state-box">
+              <div class="success-badge">✅ Credential Secured</div>
 
-            <div class="data-row"><strong>Name:</strong>
-              <%= credentialData.studentName %>
-            </div>
-            <div class="data-row"><strong>Cert ID:</strong>
-              <%= credentialData.id %>
-            </div>
-            <!-- Optionally display the newly saved docType here -->
-            <div class="data-row"><strong>Type:</strong>
-              <%= credentialData.docType || 'Official Degree' %>
-            </div>
+              <div class="data-row"><strong>Name:</strong>
+                <%= credentialData.studentName %>
+              </div>
+              <div class="data-row"><strong>Cert ID:</strong>
+                <%= credentialData.id %>
+              </div>
+              <!-- Optionally display the newly saved docType here -->
+              <div class="data-row"><strong>Type:</strong>
+                <%= credentialData.docType || 'Official Degree' %>
+              </div>
 
-            <div class="hash-display">
-              <div class="hash-label">SHA-256 Fingerprint:</div>
-              <div class="hash-string">
-                <%= credentialData.hash %>
+              <div class="hash-display">
+                <div class="hash-label">SHA-256 Fingerprint:</div>
+                <div class="hash-string">
+                  <%= credentialData.hash %>
+                </div>
               </div>
-            </div>
 
-            <% if (credentialData && credentialData.qrCode) { %>
-              <!-- Dynamic QR Code generated by Node.js - Now Centered properly with clickable link -->
-              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 24px;">
-                <img src="<%= credentialData.qrCode %>" alt="Verification QR Code"
-                  style="width: 160px; height: 160px; border-radius: 8px; border: 1px solid #e2e8f0; padding: 5px;">
-                <a href="/dashboard/verify?id=<%= credentialData.id %>" target="_blank" style="color: #64748b; font-size: 0.85rem; font-weight: 600; margin-top: 10px; cursor: pointer; text-decoration: underline;">
-                  Open Verification Link
-                </a>
-              </div>
-            <% } else { %>
-              <!-- Placeholder before a certificate is issued -->
-              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 24px; padding: 20px; background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px;">
-                <p style="color: #64748b; margin: 0;">Fill out the form to generate the credential and QR code.</p>
-              </div>
+              <% if (credentialData && credentialData.qrCode) { %>
+                <!-- Dynamic QR Code generated by Node.js - Now Centered properly with clickable link -->
+                <div
+                  style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 24px;">
+                  <img src="<%= credentialData.qrCode %>" alt="Verification QR Code"
+                    style="width: 160px; height: 160px; border-radius: 8px; border: 1px solid #e2e8f0; padding: 5px;">
+                  <a href="/dashboard/verify?id=<%= credentialData.id %>" target="_blank"
+                    style="color: #64748b; font-size: 0.85rem; font-weight: 600; margin-top: 10px; cursor: pointer; text-decoration: underline;">
+                    Open Verification Link
+                  </a>
+                </div>
+                <% } else { %>
+                  <!-- Placeholder before a certificate is issued -->
+                  <div
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 24px; padding: 20px; background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px;">
+                    <p style="color: #64748b; margin: 0;">Fill out the form to generate the credential and QR code.</p>
+                  </div>
+                  <% } %>
+            </div>
             <% } %>
-          </div> 
-        <% } %> 
-            
-      </div> 
+
+      </div>
+    </div> <!-- THIS CLOSES THE .issue-grid -->
+
+    <!-- BULK UPLOAD CARD (Correctly placed outside the grid) -->
+    <div class="card batch-card" style="margin-top: 2rem;">
+      <span class="card-badge" style="background-color: #eff6ff; color: #2563eb;">BATCH PROCESSING</span>
+      <h2 class="card-title">CSV Bulk Upload</h2>
+      <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">
+        Upload a CSV file to issue multiple credentials at once. Required headers: <strong>studentName, rollNo,
+          degree, branch, gradYear, docType</strong>.
+      </p>
+
+      <!-- Updated action route to match server.js -->
+      <form action="/dashboard/issue/bulk" method="POST" enctype="multipart/form-data"
+        style="display: flex; flex-direction: column; align-items: center;">
+        <div class="input-group" style="width: 100%; max-width: 600px;">
+          <input type="file" name="csvFile" accept=".csv" required
+            style="padding: 2rem; border: 2px dashed #cbd5e1; border-radius: 8px; width: 100%; cursor: pointer; background-color: #f8fafc; text-align: center;">
+        </div>
+        <button type="submit" class="btn-issue-submit"
+          style="background-color: #0d1527; margin-top: 15px; max-width: 200px;">Process
+          Batch</button>
+      </form>
+    </div>
+
   </main>
 
 </body>
