@@ -1,319 +1,349 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Abhedya - Sign In</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abhedya - Sign In</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+      body {
+        background: radial-gradient(circle at center, #abcdeb 0%, #ffffff 85%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
 
-    body {
-      background: radial-gradient(circle at center, #abcdeb 0%, #ffffff 85%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
+      .card {
+        background-color: #111a28;
+        width: 100%;
+        max-width: 440px;
+        padding: 2.5rem 2rem;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      }
 
-    .card {
-      background-color: #111a28;
-      width: 100%;
-      max-width: 440px;
-      padding: 2.5rem 2rem;
-      border-radius: 24px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-    }
+      /* We can remove the old logo CSS classes since we are using inline styles for perfect symmetry */
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 1.5rem;
-    }
+      .header-text {
+        text-align: center;
+        margin-bottom: 1.75rem;
+      }
 
-    .logo-icon {
-      background-color: #63dbfb;
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      .header-text h1 {
+        color: #ffffff;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+      }
 
-    .logo-text {
-      color: #ffffff;
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
+      .header-text p {
+        color: #94a3b8;
+        font-size: 0.9rem;
+      }
 
-    .header-text {
-      text-align: center;
-      margin-bottom: 1.75rem;
-    }
+      .input-group {
+        margin-bottom: 1.25rem;
+      }
 
-    .header-text h1 {
-      color: #ffffff;
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
+      .input-group label {
+        display: block;
+        color: #94a3b8;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+      }
 
-    .header-text p {
-      color: #94a3b8;
-      font-size: 0.9rem;
-    }
+      .input-wrapper {
+        position: relative;
+      }
 
-    .input-group {
-      margin-bottom: 1.25rem;
-    }
+      .input-group input {
+        width: 100%;
+        background-color: #16202e;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 0.85rem 1rem;
+        font-size: 0.9rem;
+        color: #ffffff;
+        outline: none;
+        transition: all 0.2s ease-in-out;
+      }
 
-    .input-group label {
-      display: block;
-      color: #94a3b8;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
-    }
+      .input-group input::placeholder {
+        color: #64748b;
+      }
 
-    .input-wrapper {
-      position: relative;
-    }
+      .input-group input:focus {
+        border-color: #56d8fb;
+        box-shadow: 0 0 0 3px rgba(86, 216, 251, 0.15);
+      }
 
-    .input-group input {
-      width: 100%;
-      background-color: #16202e;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 0.85rem 1rem;
-      font-size: 0.9rem;
-      color: #ffffff;
-      outline: none;
-      transition: all 0.2s ease-in-out;
-    }
+      .toggle-eye {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #94a3b8;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        transition: color 0.2s;
+      }
 
-    .input-group input::placeholder {
-      color: #64748b;
-    }
+      .toggle-eye:hover {
+        color: #ffffff;
+      }
 
-    .input-group input:focus {
-      border-color: #56d8fb;
-      box-shadow: 0 0 0 3px rgba(86, 216, 251, 0.15);
-    }
+      .submit-btn {
+        width: 100%;
+        background: linear-gradient(180deg, #6be0ff 0%, #46cef7 100%);
+        color: #0f172a;
+        border: none;
+        border-radius: 12px;
+        padding: 0.9rem;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.2s ease;
+      }
 
-    .toggle-eye {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: #94a3b8;
-      background: none;
-      border: none;
-      display: flex;
-      align-items: center;
-      transition: color 0.2s;
-    }
+      .submit-btn:hover {
+        box-shadow: 0 8px 20px rgba(86, 216, 251, 0.25);
+      }
 
-    .toggle-eye:hover {
-      color: #ffffff;
-    }
+      .submit-btn:active {
+        transform: scale(0.98);
+      }
 
-    .submit-btn {
-      width: 100%;
-      background: linear-gradient(180deg, #6be0ff 0%, #46cef7 100%);
-      color: #0f172a;
-      border: none;
-      border-radius: 12px;
-      padding: 0.9rem;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 0.5rem;
-      transition:
-        transform 0.15s ease,
-        box-shadow 0.2s ease;
-    }
+      .footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #94a3b8;
+        font-size: 0.875rem;
+      }
 
-    .submit-btn:hover {
-      box-shadow: 0 8px 20px rgba(86, 216, 251, 0.25);
-    }
+      .footer a {
+        color: #63dbfb;
+        text-decoration: underline;
+        font-weight: 600;
+      }
 
-    .submit-btn:active {
-      transform: scale(0.98);
-    }
+      #error-message {
+        display: none;
+        color: #ef4444;
+        font-size: 0.875rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        font-weight: 500;
+      }
 
-    .footer {
-      text-align: center;
-      margin-top: 1.5rem;
-      color: #94a3b8;
-      font-size: 0.875rem;
-    }
+      #transition-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(17, 24, 39, 0.85);
+        backdrop-filter: blur(10px);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+    </style>
+  </head>
 
-    .footer a {
-      color: #63dbfb;
-      text-decoration: underline;
-      font-weight: 600;
-    }
-
-    #error-message {
-      display: none;
-      color: #ef4444;
-      font-size: 0.875rem;
-      text-align: center;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-
-    #transition-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(17, 24, 39, 0.85);
-      backdrop-filter: blur(10px);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="card">
-    <div class="logo-container">
-      <div class="logo-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111A28" stroke-width="2.2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-          <path d="M6 12v5c3 3 9 3 12 0v-5" />
-        </svg>
-      </div>
-      <span class="logo-text">EduVerse</span>
-    </div>
-
-    <div class="header-text">
-      <h1>Welcome back</h1>
-      <p>Enter your credentials to access your dashboard</p>
-    </div>
-
-    <form id="login-form">
-      <div class="input-group">
-        <label for="login-id">Login ID</label>
-        <input type="text" id="login-id" name="loginId" placeholder="Enter your student ID" required />
+  <body>
+    <div class="card">
+      <!-- PERECTLY SYMMETRIC ABHEDYA LOGO BLOCK -->
+      <div
+        class="logo-container"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          margin-bottom: 16px;
+        "
+      >
+        <img
+          src="/images/logo.jpeg"
+          alt="Abhedya Logo"
+          style="
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            object-fit: cover;
+            display: block;
+          "
+        />
+        <span
+          style="
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 34px;
+            letter-spacing: -0.02em;
+          "
+          >Abhedya</span
+        >
       </div>
 
-      <div class="input-group">
-        <label for="password">Password</label>
-        <div class="input-wrapper">
-          <input type="password" id="password" name="password" placeholder="••••••••••••" required />
-          <button type="button" class="toggle-eye" onclick="togglePasswordVisibility()">
-            <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-          </button>
+      <div class="header-text" style="text-align: center">
+        <h1 style="margin-bottom: 6px">Welcome back</h1>
+        <p>Enter your credentials to access your dashboard</p>
+      </div>
+
+      <form id="login-form">
+        <div class="input-group">
+          <label for="login-id">Login ID</label>
+          <input
+            type="text"
+            id="login-id"
+            name="loginId"
+            placeholder="Enter your student ID"
+            required
+          />
         </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••••••"
+              required
+            />
+            <button
+              type="button"
+              class="toggle-eye"
+              onclick="togglePasswordVisibility()"
+            >
+              <svg
+                id="eye-icon"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="error-message" style="text-align: center"></div>
+
+        <button type="submit" class="submit-btn">Sign In</button>
+      </form>
+
+      <div class="footer" style="text-align: center">
+        New to Abhedya? <a href="/register">Create an Account</a>
       </div>
-
-      <div id="error-message"></div>
-
-      <button type="submit" class="submit-btn">Sign In</button>
-    </form>
-
-    <div class="footer">
-      New to EduVerse? <a href="/register">Create an Account</a>
     </div>
-  </div>
 
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-  <div id="transition-overlay">
-    <lottie-player src="https://lottie.host/28cc0d91-b674-43a9-ad22-230fa6d57093/fXDg9P20Li.json"
-      background="transparent" speed="1" style="width: 250px; height: 250px" loop autoplay>
-    </lottie-player>
-  </div>
+    <div id="transition-overlay">
+      <lottie-player
+        src="https://lottie.host/28cc0d91-b674-43a9-ad22-230fa6d57093/fXDg9P20Li.json"
+        background="transparent"
+        speed="1"
+        style="width: 250px; height: 250px"
+        loop
+        autoplay
+      >
+      </lottie-player>
+    </div>
 
-  <script>
-    function togglePasswordVisibility() {
-      const pwd = document.getElementById("password");
-      pwd.type = pwd.type === "password" ? "text" : "password";
-    }
+    <script>
+      function togglePasswordVisibility() {
+        const pwd = document.getElementById("password");
+        pwd.type = pwd.type === "password" ? "text" : "password";
+      }
 
-    const loginForm = document.getElementById("login-form");
-    const overlay = document.getElementById("transition-overlay");
-    const errorMsg = document.getElementById("error-message");
-    const submitBtn = document.querySelector('.submit-btn');
+      const loginForm = document.getElementById("login-form");
+      const overlay = document.getElementById("transition-overlay");
+      const errorMsg = document.getElementById("error-message");
+      const submitBtn = document.querySelector(".submit-btn");
 
-    loginForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
+      loginForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-      // 1. Instant Visual Feedback
-      const originalText = submitBtn.innerText;
-      submitBtn.innerText = "Checking...";
-      submitBtn.style.opacity = "0.7";
-      submitBtn.disabled = true;
-      errorMsg.style.display = "none";
+        // 1. Instant Visual Feedback
+        const originalText = submitBtn.innerText;
+        submitBtn.innerText = "Checking...";
+        submitBtn.style.opacity = "0.7";
+        submitBtn.disabled = true;
+        errorMsg.style.display = "none";
 
-      const loginId = document.getElementById("login-id").value;
-      const password = document.getElementById("password").value;
+        const loginId = document.getElementById("login-id").value;
+        const password = document.getElementById("password").value;
 
-      try {
-        const response = await fetch("/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ loginId, password }),
-        });
+        try {
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ loginId, password }),
+          });
 
-        const data = await response.json();
+          const data = await response.json();
 
-        if (response.ok && data.success) {
-          // Success: Show the overlay and redirect immediately
-          overlay.style.display = "flex";
-          setTimeout(() => {
-            overlay.style.opacity = "1";
-          }, 10);
+          if (response.ok && data.success) {
+            // Success: Show the overlay and redirect immediately
+            overlay.style.display = "flex";
+            setTimeout(() => {
+              overlay.style.opacity = "1";
+            }, 10);
 
-          window.location.href = data.redirectUrl;
-        } else {
-          // Failure: Reset the button and show the error message
+            window.location.href = data.redirectUrl;
+          } else {
+            // Failure: Reset the button and show the error message
+            submitBtn.innerText = originalText;
+            submitBtn.style.opacity = "1";
+            submitBtn.disabled = false;
+
+            errorMsg.innerText = data.message || "Invalid credentials!";
+            errorMsg.style.display = "block";
+          }
+        } catch (error) {
+          // Network Error: Reset the button and show a fallback error
+          console.error("Login request failed", error);
           submitBtn.innerText = originalText;
           submitBtn.style.opacity = "1";
           submitBtn.disabled = false;
 
-          errorMsg.innerText = data.message || "Invalid credentials!";
+          errorMsg.innerText = "Something went wrong connecting to the server.";
           errorMsg.style.display = "block";
         }
-      } catch (error) {
-        // Network Error: Reset the button and show a fallback error
-        console.error("Login request failed", error);
-        submitBtn.innerText = originalText;
-        submitBtn.style.opacity = "1";
-        submitBtn.disabled = false;
-
-        errorMsg.innerText = "Something went wrong connecting to the server.";
-        errorMsg.style.display = "block";
-      }
-    });
-  </script>
-</body>
-
+      });
+    </script>
+  </body>
 </html>
