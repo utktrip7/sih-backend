@@ -12,6 +12,7 @@ const csv = require("csv-parser");
 const fs = require("fs");
 const upload = multer({ dest: "uploads/" }); // Temp folder for uploads
 const app = express();
+const { signPayload, verifyPayload, getPublicKeyPem } = require("./signing"); // Cryptographic Module
 const port = process.env.PORT || 3000;
 
 // ==========================================
@@ -208,13 +209,18 @@ app.post(
       .createHash("sha256")
       .update(rawData)
       .digest("hex");
+
+    // NEW: Sign the document hash with the institution's private key
+    const signature = signPayload(documentHash);
+
     const randomHex = crypto.randomBytes(2).toString("hex").toUpperCase();
     const certificateID = `CERT-${randomHex}`;
 
     try {
+      // NEW: Added 'signature' to the INSERT columns and values
       await pool.query(
-        `INSERT INTO certificates (cert_id, student_name, roll_no, degree, branch, grad_year, document_hash, doc_type) 
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        `INSERT INTO certificates (cert_id, student_name, roll_no, degree, branch, grad_year, document_hash, doc_type, signature) 
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
         [
           certificateID,
           studentName,
@@ -224,6 +230,7 @@ app.post(
           gradYear,
           documentHash,
           docType,
+          signature,
         ],
       );
 
@@ -243,6 +250,7 @@ app.post(
           gradYear: gradYear,
           docType: docType,
           hash: documentHash,
+          signature: signature, // Passed to the view
           qrCode: qrCodeImage,
         },
       });
@@ -303,15 +311,20 @@ app.post(
               .createHash("sha256")
               .update(rawData)
               .digest("hex");
+
+            // NEW: Sign the document hash during bulk uploads too
+            const signature = signPayload(documentHash);
+
             const randomHex = crypto
               .randomBytes(2)
               .toString("hex")
               .toUpperCase();
             const certificateID = `CERT-${randomHex}`;
 
+            // NEW: Added 'signature' to the INSERT columns and values
             await pool.query(
-              `INSERT INTO certificates (cert_id, student_name, roll_no, degree, branch, grad_year, document_hash, doc_type)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+              `INSERT INTO certificates (cert_id, student_name, roll_no, degree, branch, grad_year, document_hash, doc_type, signature)
+               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
               [
                 certificateID,
                 studentName,
@@ -321,6 +334,7 @@ app.post(
                 gradYear,
                 documentHash,
                 docType,
+                signature,
               ],
             );
 
@@ -394,7 +408,7 @@ app.get("/dashboard/ledger", requireRole("admin"), async (req, res) => {
 });
 
 // ==========================================
-// 5. PUBLIC VERIFICATION PORTAL (UPDATED FOR OPTION 2)
+// 5. PUBLIC VERIFICATION PORTAL
 // ==========================================
 
 app.get("/dashboard/verify", (req, res) => {
@@ -430,7 +444,6 @@ app.post("/verify-action", async (req, res) => {
     const isMatch = recomputedHash === cert.document_hash;
     const chainStatus = await verifyChainIntegrity();
 
-    // OPTION 2 CHECK: Query the separate revocations table instead of a status column
     const revocationQuery = await pool.query(
       "SELECT * FROM revocations WHERE cert_id = $1",
       [selectedCertId],
@@ -439,7 +452,23 @@ app.post("/verify-action", async (req, res) => {
     const revocationReason = isRevoked ? revocationQuery.rows[0].reason : null;
 
     const isTampered = !isMatch;
-    const isValid = !isTampered && !isRevoked && chainStatus.valid;
+
+    // ==========================================
+    // NEW: DIGITAL SIGNATURE VERIFICATION
+    // ==========================================
+    const isSigned = cert.signature !== null && cert.signature !== undefined;
+
+    // CRITICAL: Verify against the RECOMPUTED hash, not the database hash!
+    const signatureValid = isSigned
+      ? verifyPayload(recomputedHash, cert.signature)
+      : false;
+
+    // A certificate is valid if it's untampered, unrevoked, chain is valid, AND (if it has a signature) the signature is valid.
+    const isValid =
+      !isTampered &&
+      !isRevoked &&
+      chainStatus.valid &&
+      (isSigned ? signatureValid : true);
 
     res.render("verify", {
       verifiedData: {
@@ -457,6 +486,9 @@ app.post("/verify-action", async (req, res) => {
         isTampered: isTampered,
         isRevoked: isRevoked,
         chainValid: chainStatus.valid,
+        isSigned: isSigned, // New pass-through
+        signatureValid: signatureValid, // New pass-through
+        signature: cert.signature, // New pass-through
         isValid: isValid,
         revocationReason: revocationReason,
       },
@@ -469,12 +501,11 @@ app.post("/verify-action", async (req, res) => {
 });
 
 // ==========================================
-// 6. ADMIN REVOCATION REGISTRY (OPTION 2 APPEND-ONLY)
+// 6. ADMIN REVOCATION REGISTRY
 // ==========================================
 
 app.get("/dashboard/revoke", requireRole("admin"), async (req, res) => {
   try {
-    // Fetch from the append-only revocations table joined with certificates data
     const result = await pool.query(
       `SELECT c.*, r.reason as revocation_reason, r.revoked_at as revoked_date 
        FROM certificates c 
@@ -491,15 +522,12 @@ app.get("/dashboard/revoke", requireRole("admin"), async (req, res) => {
 app.post("/revoke-action", requireRole("admin"), async (req, res) => {
   const { certId, reason } = req.body;
   try {
-    // OPTION 2: Append-only insert into the revocations table.
-    // This leaves the original certificate row completely pristine so the ledger hash stays valid!
     await pool.query(
       "INSERT INTO revocations (cert_id, reason) VALUES ($1, $2)",
       [certId, reason || "Academic misconduct discovered"],
     );
     res.redirect("/dashboard/revoke");
   } catch (err) {
-    // Handle case where certificate is already revoked (unique constraint violation)
     if (err.code === "23505") {
       return res.status(400).send("This certificate has already been revoked.");
     }
@@ -878,6 +906,13 @@ app.get("/download-qr/:cert_id", requireRole("student"), async (req, res) => {
     console.error("QR PDF generation error:", err);
     res.status(500).send("Error generating QR document.");
   }
+});
+
+// ==========================================
+// NEW: PUBLIC KEY ENDPOINT
+// ==========================================
+app.get("/public-key", (req, res) => {
+  res.type("text/plain").send(getPublicKeyPem());
 });
 
 // ==========================================

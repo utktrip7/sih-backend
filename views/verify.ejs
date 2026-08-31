@@ -12,7 +12,7 @@
 
   <!-- Top Dark Header Navigation (External Public View) -->
   <header>
-    <<div class="brand-section">
+    <div class="brand-section">
       <img src="/images/logo.jpeg" alt="Abhedya Logo" class="brand-logo-img">
       
       <div class="brand-text">
@@ -88,8 +88,8 @@
                     <%= verifiedData.revocationReason %>
                   </div>
 
-                  <!-- If not revoked, check for Tampering -->
-                  <% } else if (verifiedData.isMatch) { %>
+                  <!-- UPDATED: We now check isValid instead of just isMatch, so a broken signature triggers the tamper alert too! -->
+                  <% } else if (verifiedData.isValid) { %>
                     <div class="status-badge success">✅ Verified & Authentic</div>
                     <% } else { %>
                       <div class="status-badge error">❌ Tamper Alert: Invalid Credential</div>
@@ -117,7 +117,7 @@
                         <div class="data-row">
                           <strong>Branch:</strong>
                           <span
-                            style="color: <%= (!verifiedData.isRevoked && !verifiedData.isMatch) ? '#dc2626' : 'inherit' %>; font-weight: <%= (!verifiedData.isRevoked && !verifiedData.isMatch) ? '600' : 'normal' %>;">
+                            style="color: <%= (!verifiedData.isRevoked && !verifiedData.isValid) ? '#dc2626' : 'inherit' %>; font-weight: <%= (!verifiedData.isRevoked && !verifiedData.isValid) ? '600' : 'normal' %>;">
                             <%= verifiedData.branch %>
                           </span>
                         </div>
@@ -188,6 +188,47 @@
                                 : 'style="color: #dc2626;"' %>>
                                 <%= verifiedData.recomputedHash %>
                               </div>
+                            </div>
+
+                            <!-- ========================================== -->
+                            <!-- NEW: DIGITAL SIGNATURE VERIFICATION BLOCK  -->
+                            <!-- ========================================== -->
+                            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+                              <h4 style="font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 10px;">
+                                Cryptographic Signature Status
+                              </h4>
+                              
+                              <% if (!verifiedData.isSigned) { %>
+                                <div style="background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px; color: #b45309; font-size: 0.85rem; display: flex; align-items: center; gap: 10px;">
+                                  <span style="font-size: 1.2rem;">⚠️</span>
+                                  <div>
+                                    <strong>Unsigned (Legacy Record)</strong><br>
+                                    This document was issued before the Ed25519 signature upgrade. Data matches database, but cryptographic origin cannot be proven.
+                                  </div>
+                                </div>
+                              <% } else if (verifiedData.signatureValid) { %>
+                                <div style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 12px; color: #065f46; font-size: 0.85rem; display: flex; align-items: flex-start; gap: 10px;">
+                                  <span style="font-size: 1.2rem; margin-top: 2px;">✅</span>
+                                  <div>
+                                    <strong>Verified Cryptographically</strong><br>
+                                    Signature mathematically verified against the institution's public key. Origin is authentic.<br>
+                                    <div style="margin-top: 6px; font-family: monospace; font-size: 0.7rem; color: #059669; word-break: break-all; background: rgba(16, 185, 129, 0.1); padding: 6px; border-radius: 4px;">
+                                      <%= verifiedData.signature %>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% } else { %>
+                                <div style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 12px; color: #991b1b; font-size: 0.85rem; display: flex; align-items: flex-start; gap: 10px;">
+                                  <span style="font-size: 1.2rem; margin-top: 2px;">❌</span>
+                                  <div>
+                                    <strong>INVALID SIGNATURE - Tamper Detected</strong><br>
+                                    The digital signature does not match the computed hash. This document has been forged or altered by someone without the Private Key.<br>
+                                    <div style="margin-top: 6px; font-family: monospace; font-size: 0.7rem; color: #b91c1c; word-break: break-all; background: rgba(239, 68, 68, 0.1); padding: 6px; border-radius: 4px;">
+                                      <%= verifiedData.signature %>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% } %>
                             </div>
 
               </div>

@@ -16,7 +16,6 @@
   <header>
     <div class="brand-section">
       <div class="brand-icon">
-        <!-- Replace YOUR_LOGO.png with the exact file name of your image -->
         <img src="/images/logo.jpeg" alt="Abhedya Logo" class="brand-logo-img">
       </div>
       <div class="brand-text">
@@ -180,7 +179,6 @@
               <div class="data-row"><strong>Cert ID:</strong>
                 <%= credentialData.id %>
               </div>
-              <!-- Optionally display the newly saved docType here -->
               <div class="data-row"><strong>Type:</strong>
                 <%= credentialData.docType || 'Official Degree' %>
               </div>
@@ -190,6 +188,17 @@
                 <div class="hash-string">
                   <%= credentialData.hash %>
                 </div>
+              </div>
+
+              <!-- NEW: DIGITAL SIGNATURE DISPLAY -->
+              <div class="detail-group" style="margin-top: 15px; text-align: left;">
+                  <label style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Digital Signature (Ed25519)</label>
+                  <div class="hash-box" style="word-break: break-all; font-size: 0.85rem; color: #10b981; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 6px; padding: 10px; margin-top: 5px;">
+                      <span style="margin-right: 5px;">✍️</span> <%= credentialData.signature %>
+                  </div>
+                  <small style="color: #64748b; font-size: 0.75rem; margin-top: 4px; display: block;">
+                      Signed securely with the institution's private key.
+                  </small>
               </div>
 
               <% if (credentialData && credentialData.qrCode) { %>
