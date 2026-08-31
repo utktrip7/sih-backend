@@ -52,6 +52,31 @@
       }
 
       /* ========================================= */
+      /* FIX: Dashboard mockup image overflow       */
+      /* The old <img> used Tailwind utility        */
+      /* classes (w-full, h-auto, object-contain,   */
+      /* etc.) that don't exist in this project's   */
+      /* plain CSS, so the image rendered at its     */
+      /* native pixel size and spilled out of the    */
+      /* mockup container. This constrains it        */
+      /* properly using real CSS.                    */
+      /* ========================================= */
+      .mockup-container {
+        overflow: hidden; /* clips anything that still overflows */
+      }
+
+      .mockup-container .dashboard-screenshot {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 320px; /* tune this to fit your mockup nicely */
+        object-fit: cover; /* crops to fill instead of stretching */
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        border: 1px solid #f1f5f9;
+      }
+
+      /* ========================================= */
       /* NEW: Abhedya Screenshot Carousel Styles  */
       /* ========================================= */
       .carousel-section {
@@ -153,7 +178,17 @@
   <body>
     <nav class="navbar">
       <div class="logo">
-        <img src="/images/logo.jpeg" alt="Abhedya Logo" style="height: 38px; width: auto; border-radius: 6px; vertical-align: middle; margin-right: 8px;" />
+        <img
+          src="/images/logo.jpeg"
+          alt="Abhedya Logo"
+          style="
+            height: 38px;
+            width: auto;
+            border-radius: 6px;
+            vertical-align: middle;
+            margin-right: 8px;
+          "
+        />
         Abhedya
       </div>
       <div class="nav-links">
@@ -211,7 +246,11 @@
             <div class="url-bar">Abhedya.io/dashboard</div>
           </div>
 
-          <div class="dashboard-img">[ Dashboard Image Goes Here ]</div>
+          <img
+            src="/images/dashboard-img.png"
+            alt="Abhedya Dashboard Overview"
+            class="dashboard-screenshot"
+          />
 
           <div class="stats-grid">
             <div class="stat-card">
