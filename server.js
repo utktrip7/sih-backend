@@ -236,7 +236,9 @@ app.post(
 
       await addBlockToLedger(certificateID, documentHash);
 
-      const verificationUrl = `https://eduverse-portal.up.railway.app/dashboard/verify?id=${certificateID}`;
+      // UPDATED: Dynamically generate the verification URL based on the environment variable
+      const baseUrl = process.env.APP_BASE_URL || 'http://localhost:3000';
+      const verificationUrl = `${baseUrl}/dashboard/verify?id=${certificateID}`;
       const qrCodeImage = await QRCode.toDataURL(verificationUrl);
 
       res.render("issue", {
@@ -667,7 +669,10 @@ app.get("/student-portal", requireRole("student"), async (req, res) => {
 
     for (let i = 0; i < displayCertificates.length; i++) {
       const cert = displayCertificates[i];
-      const verificationUrl = `https://eduverse-portal.up.railway.app/dashboard/verify?id=${cert.cert_id}`;
+      
+      // UPDATED: Dynamically generate the verification URL based on the environment variable
+      const baseUrl = process.env.APP_BASE_URL || 'http://localhost:3000';
+      const verificationUrl = `${baseUrl}/dashboard/verify?id=${cert.cert_id}`;
       cert.qrCode = await QRCode.toDataURL(verificationUrl);
     }
 
@@ -870,7 +875,9 @@ app.get("/download-qr/:cert_id", requireRole("student"), async (req, res) => {
     );
     doc.pipe(res);
 
-    const verificationUrl = `https://eduverse-portal.up.railway.app/dashboard/verify?id=${cert.cert_id}`;
+    // UPDATED: Dynamically generate the verification URL based on the environment variable
+    const baseUrl = process.env.APP_BASE_URL || 'http://localhost:3000';
+    const verificationUrl = `${baseUrl}/dashboard/verify?id=${cert.cert_id}`;
     const qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
       width: 180,
       margin: 1,
