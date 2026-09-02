@@ -53,24 +53,17 @@
 
       /* ========================================= */
       /* FIX: Dashboard mockup image overflow       */
-      /* The old <img> used Tailwind utility        */
-      /* classes (w-full, h-auto, object-contain,   */
-      /* etc.) that don't exist in this project's   */
-      /* plain CSS, so the image rendered at its     */
-      /* native pixel size and spilled out of the    */
-      /* mockup container. This constrains it        */
-      /* properly using real CSS.                    */
       /* ========================================= */
       .mockup-container {
-        overflow: hidden; /* clips anything that still overflows */
+        overflow: hidden;
       }
 
       .mockup-container .dashboard-screenshot {
         display: block;
         width: 100%;
         height: auto;
-        max-height: 320px; /* tune this to fit your mockup nicely */
-        object-fit: cover; /* crops to fill instead of stretching */
+        max-height: 320px;
+        object-fit: cover;
         border-radius: 12px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         border: 1px solid #f1f5f9;
@@ -86,7 +79,6 @@
         align-items: center;
         background-color: #f8fafc;
         overflow: hidden;
-        /* Prevents horizontal scrollbars from peeking slides */
       }
 
       .carousel-container {
@@ -99,28 +91,22 @@
       .carousel-track {
         display: flex;
         gap: 2%;
-        /* Space between slides */
         transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         width: 100%;
         align-items: center;
-        /* Centers the scaled slides vertically */
       }
 
       .carousel-slide {
-        /* Forces the slide to take up exactly 70% of the container, leaving 30% for the sides */
         flex: 0 0 70%;
         box-sizing: border-box;
         border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-
-        /* The "Inactive" state by default */
         opacity: 0.4;
         transform: scale(0.85);
         transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
       }
 
-      /* The "Active/Center" state */
       .carousel-slide.active-slide {
         opacity: 1;
         transform: scale(1);
@@ -135,12 +121,10 @@
         aspect-ratio: 16/9;
       }
 
-      /* Bottom Right Controls */
       .carousel-controls {
         position: absolute;
         bottom: 24px;
         right: 20%;
-        /* Adjusted slightly inward to sit on the active slide */
         display: flex;
         gap: 12px;
         z-index: 10;
@@ -172,6 +156,37 @@
       .ctrl-btn:active {
         transform: scale(0.95);
       }
+
+      /* ========================================= */
+      /* FIX: About Us Symmetry & Spacing          */
+      /* ========================================= */
+      .about-section {
+        display: flex;
+        align-items: center; /* Vertically centers the text and terminal */
+      }
+
+      .about-features .feature-row {
+        display: flex;
+        align-items: flex-start; /* Forces the tick to the top instead of the center */
+      }
+
+      .feature-icon {
+        margin-top: 4px; /* Adjust this from 2px to 6px if you need to fine-tune the exact center of the text */
+      }
+
+      .feature-row h4 {
+        margin-bottom: 0.25rem; /* Brings the description closer to the title */
+      }
+
+      .terminal-box {
+        min-height: 340px; /* Forces the terminal to be taller for visual balance */
+        display: flex;
+        flex-direction: column;
+      }
+
+      .terminal-body {
+        flex-grow: 1;
+      }
     </style>
   </head>
 
@@ -201,27 +216,21 @@
 
     <!-- MAIN HERO SECTION -->
     <div class="hero">
-      <!-- LEFT SIDE: Text and Buttons -->
       <div class="hero-left">
-        <!-- 1. The Big Title -->
         <h1>
           Verify documentation.<br />
           <span class="highlight">Spot fakes</span> seamlessly.
         </h1>
-
-        <!-- 2. The Subtitle -->
         <p class="subtitle">
           Access thousands of certificates - academics and co-curricular
         </p>
 
-        <!-- Animated text section -->
         <div class="hero-animation-box">
           <div class="hero-animation-text" id="hero-animation-text">
             Verified. Secure. Trusted.
           </div>
         </div>
 
-        <!-- 4. The Checkmarks -->
         <div class="features">
           <div class="feature-item">
             <span class="checkmark">✔</span> 2,500+ Certified Colleges
@@ -234,7 +243,6 @@
           </div>
         </div>
       </div>
-      <!-- RIGHT SIDE: Dashboard Mockup -->
       <div class="hero-right">
         <div class="mockup-container">
           <div class="browser-header">
@@ -292,11 +300,10 @@
     <!-- NEO-STATES SECURE NODE SLIDER -->
     <div class="neo-slider-wrapper">
       <div class="neo-slider-track" id="neoTrack">
-        <!-- Card 1: Odisha -->
+        <!-- Cards 1-7 (Odisha through Maharashtra) remain unchanged -->
         <div class="neo-card" onclick="slideNextNeo()">
           <div class="abstract-glow glow-odisha"></div>
           <div class="cyber-grid"></div>
-
           <div class="neo-content">
             <div class="live-status">
               <div class="pulse-dot"></div>
@@ -305,7 +312,6 @@
             <h3>Odisha</h3>
             <span class="neo-tag">65+ Issuers</span>
           </div>
-
           <div class="neo-arrow-btn">
             <svg
               width="24"
@@ -321,12 +327,9 @@
             </svg>
           </div>
         </div>
-
-        <!-- Card 2: Rajasthan -->
         <div class="neo-card" onclick="slideNextNeo()">
           <div class="abstract-glow glow-rajasthan"></div>
           <div class="cyber-grid"></div>
-
           <div class="neo-content">
             <div class="live-status">
               <div class="pulse-dot"></div>
@@ -335,7 +338,6 @@
             <h3>Rajasthan</h3>
             <span class="neo-tag">125+ Issuers</span>
           </div>
-
           <div class="neo-arrow-btn">
             <svg
               width="24"
@@ -351,12 +353,9 @@
             </svg>
           </div>
         </div>
-
-        <!-- Card 3: Assam -->
         <div class="neo-card" onclick="slideNextNeo()">
           <div class="abstract-glow glow-assam"></div>
           <div class="cyber-grid"></div>
-
           <div class="neo-content">
             <div class="live-status">
               <div class="pulse-dot"></div>
@@ -365,7 +364,6 @@
             <h3>Assam</h3>
             <span class="neo-tag">50+ Issuers</span>
           </div>
-
           <div class="neo-arrow-btn">
             <svg
               width="24"
@@ -381,12 +379,9 @@
             </svg>
           </div>
         </div>
-
-        <!-- Card 4: Gujarat -->
         <div class="neo-card" onclick="slideNextNeo()">
           <div class="abstract-glow glow-gujarat"></div>
           <div class="cyber-grid"></div>
-
           <div class="neo-content">
             <div class="live-status">
               <div class="pulse-dot"></div>
@@ -395,7 +390,6 @@
             <h3>Gujarat</h3>
             <span class="neo-tag">110+ Issuers</span>
           </div>
-
           <div class="neo-arrow-btn">
             <svg
               width="24"
@@ -411,12 +405,9 @@
             </svg>
           </div>
         </div>
-
-        <!-- Card 5: Kerala -->
         <div class="neo-card" onclick="slideNextNeo()">
           <div class="abstract-glow glow-kerala"></div>
           <div class="cyber-grid"></div>
-
           <div class="neo-content">
             <div class="live-status">
               <div class="pulse-dot"></div>
@@ -425,7 +416,6 @@
             <h3>Kerala</h3>
             <span class="neo-tag">90+ Issuers</span>
           </div>
-
           <div class="neo-arrow-btn">
             <svg
               width="24"
@@ -441,12 +431,9 @@
             </svg>
           </div>
         </div>
-
-        <!-- Card 6: Uttar Pradesh -->
         <div class="neo-card" onclick="slideNextNeo()">
           <div class="abstract-glow glow-up"></div>
           <div class="cyber-grid"></div>
-
           <div class="neo-content">
             <div class="live-status">
               <div class="pulse-dot"></div>
@@ -455,7 +442,6 @@
             <h3>Uttar Pradesh</h3>
             <span class="neo-tag">210+ Issuers</span>
           </div>
-
           <div class="neo-arrow-btn">
             <svg
               width="24"
@@ -471,12 +457,9 @@
             </svg>
           </div>
         </div>
-
-        <!-- Card 7: Maharashtra -->
         <div class="neo-card" onclick="slideNextNeo()">
           <div class="abstract-glow glow-maharashtra"></div>
           <div class="cyber-grid"></div>
-
           <div class="neo-content">
             <div class="live-status">
               <div class="pulse-dot"></div>
@@ -485,7 +468,6 @@
             <h3>Maharashtra</h3>
             <span class="neo-tag">340+ Issuers</span>
           </div>
-
           <div class="neo-arrow-btn">
             <svg
               width="24"
@@ -504,7 +486,7 @@
       </div>
     </div>
 
-    <!-- CATEGORY CARDS SECTION (UPDATED) -->
+    <!-- CATEGORY CARDS SECTION -->
     <div class="categories-section">
       <div class="category-card">
         <div class="card-img">
@@ -549,7 +531,7 @@
       </div>
     </div>
 
-    <!-- HOW IT WORKS SECTION (CAROUSEL OVERHAUL) -->
+    <!-- HOW IT WORKS SECTION -->
     <section class="carousel-section">
       <h2
         class="section-title"
@@ -567,40 +549,33 @@
       </p>
 
       <div class="carousel-container">
-        <!-- The Slider Track -->
         <div class="carousel-track" id="track">
-          <!-- Slide 1 -->
           <div class="carousel-slide">
-            <!-- ⚠️ Make sure to save your actual screenshots in your public/img folder! -->
             <img
               src="/images/screenshot-dashboard.png"
               alt="Abhedya Admin Dashboard"
             />
           </div>
-          <!-- Slide 2 -->
           <div class="carousel-slide">
             <img
               src="/images/screenshot-issue.png"
               alt="Abhedya Issuance Page"
             />
           </div>
-          <!-- Slide 3 -->
           <div class="carousel-slide">
             <img
               src="/images/screenshot-verify.png"
               alt="Abhedya Verification Portal"
             />
           </div>
-          <!-- Slide 4 -->
           <div class="carousel-slide">
             <img
               src="/images/screenshot-revoke.png"
-              alt="Abhedya Verification Portal"
+              alt="Abhedya Revocation Portal"
             />
           </div>
         </div>
 
-        <!-- DigiLocker-Style Controls -->
         <div class="carousel-controls">
           <button class="ctrl-btn" id="prevBtn" title="Previous">
             <svg
@@ -616,9 +591,7 @@
               <path d="m15 18-6-6 6-6" />
             </svg>
           </button>
-
           <button class="ctrl-btn" id="playPauseBtn" title="Pause/Play">
-            <!-- Default is Pause icon since it auto-plays -->
             <svg
               id="pauseIcon"
               width="18"
@@ -640,7 +613,6 @@
               <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
           </button>
-
           <button class="ctrl-btn" id="nextBtn" title="Next">
             <svg
               width="20"
@@ -661,22 +633,22 @@
 
     <!-- ABOUT US SECTION -->
     <div class="about-section">
-      <!-- LEFT SIDE: Text and Features -->
       <div class="about-content">
         <h2 class="about-title">About Us</h2>
         <p class="about-description">
-          We discarded passive video streams. Abhedya offers a playground where
-          theory instantly morphs into real technical actions.
+          We discarded easily manipulated, centralized databases. Abhedya offers
+          a permissioned, cryptographic ledger where academic credentials become
+          mathematically impossible to forge.
         </p>
 
         <div class="about-features">
           <div class="feature-row">
             <div class="feature-icon">✓</div>
             <div class="feature-text">
-              <h4>Browser Integrated Sandbox</h4>
+              <h4>Cryptographic Issuance</h4>
               <p>
-                Run and test real code environments instantly without local
-                system software setups.
+                Every certificate is digitally signed using institutional
+                Ed25519 keys, guaranteeing absolute authenticity at the source.
               </p>
             </div>
           </div>
@@ -684,10 +656,10 @@
           <div class="feature-row">
             <div class="feature-icon">✓</div>
             <div class="feature-text">
-              <h4>Live Cohort Check-Ins</h4>
+              <h4>Tamper-Proof Ledger</h4>
               <p>
-                Sync directly with weekly mentorship circles to cross roadblocks
-                collaboratively.
+                Records are locked into an append-only, hash-linked database. A
+                single unauthorized edit instantly breaks the chain.
               </p>
             </div>
           </div>
@@ -695,17 +667,17 @@
           <div class="feature-row">
             <div class="feature-icon">✓</div>
             <div class="feature-text">
-              <h4>Interactive Quiz Checkpoints</h4>
+              <h4>Instant Verification</h4>
               <p>
-                Test comprehension instantly dynamically built dynamically
-                throughout interactive streams.
+                Zero middlemen. Recruiters can instantly verify SHA-256 hashes
+                in milliseconds, turning weeks of manual background checks into
+                a single click.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT SIDE: Hacker Terminal Effect -->
       <div class="about-image">
         <div class="terminal-box">
           <div class="terminal-header">
@@ -725,7 +697,6 @@
       <h2 class="section-title">Endorsed by Fast Growing Professionals</h2>
 
       <div class="testimonials-grid">
-        <!-- Card 1 -->
         <div class="testimonial-card">
           <div class="stars">★★★★★</div>
           <p class="quote">
@@ -741,8 +712,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Card 2 -->
         <div class="testimonial-card">
           <div class="stars">★★★★★</div>
           <p class="quote">
@@ -758,8 +727,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Card 3 -->
         <div class="testimonial-card">
           <div class="stars">★★★★★</div>
           <p class="quote">
@@ -775,8 +742,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Card 4 -->
         <div class="testimonial-card">
           <div class="stars">★★★★★</div>
           <p class="quote">
@@ -817,7 +782,6 @@
     <!-- FOOTER SECTION -->
     <footer class="footer-section">
       <div class="footer-grid">
-        <!-- Col 1: Brand Info -->
         <div class="footer-col brand-col">
           <div class="footer-logo">
             <span class="logo-icon">🎓</span> Abhedya
@@ -827,8 +791,6 @@
             technical education dashboards. Built by developers, for creators.
           </p>
         </div>
-
-        <!-- Col 2: Programs -->
         <div class="footer-col">
           <h4>PROGRAMS</h4>
           <ul>
@@ -838,8 +800,6 @@
             <li><a href="#">Database Systems</a></li>
           </ul>
         </div>
-
-        <!-- Col 3: Enterprise -->
         <div class="footer-col">
           <h4>ENTERPRISE</h4>
           <ul>
@@ -849,8 +809,6 @@
             <li><a href="#">Security audits</a></li>
           </ul>
         </div>
-
-        <!-- Col 4: Resources -->
         <div class="footer-col">
           <h4>RESOURCES</h4>
           <ul>
@@ -860,8 +818,6 @@
             <li><a href="#">System API metrics</a></li>
           </ul>
         </div>
-
-        <!-- Col 5: Company -->
         <div class="footer-col">
           <h4>COMPANY</h4>
           <ul>
@@ -872,8 +828,6 @@
           </ul>
         </div>
       </div>
-
-      <!-- Footer Bottom Bar -->
       <div class="footer-bottom">
         <p>
           © 2026 Abhedya Interactive Technologies, Inc. All legal rights
@@ -887,11 +841,7 @@
       </div>
     </footer>
 
-    <!-- ========================================= -->
     <!-- SCRIPTS SECTION -->
-    <!-- ========================================= -->
-
-    <!-- 1. Anime.js Text Script -->
     <script>
       const textEl = document.getElementById("hero-animation-text");
       const originalText = textEl.textContent;
@@ -915,24 +865,18 @@
       });
     </script>
 
-    <!-- 2. Infinite Loop Carousel Script (The Clone Hack) -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const track = document.getElementById("track");
-
         let originalSlides = Array.from(
           document.querySelectorAll(".carousel-slide"),
         );
-
         const firstClone = originalSlides[0].cloneNode(true);
         const lastClone =
           originalSlides[originalSlides.length - 1].cloneNode(true);
-
         track.appendChild(firstClone);
         track.insertBefore(lastClone, originalSlides[0]);
-
         const slides = Array.from(document.querySelectorAll(".carousel-slide"));
-
         const prevBtn = document.getElementById("prevBtn");
         const nextBtn = document.getElementById("nextBtn");
         const playPauseBtn = document.getElementById("playPauseBtn");
@@ -944,11 +888,10 @@
         let autoSlideInterval;
         let isTransitioning = false;
         const slideDuration = 3000;
-
         const slideWidthPercent = 70;
         const gapPercent = 2;
-        const centerOffset = (100 - slideWidthPercent) / 2; // 15%
-        const shiftAmount = slideWidthPercent + gapPercent; // 72%
+        const centerOffset = (100 - slideWidthPercent) / 2;
+        const shiftAmount = slideWidthPercent + gapPercent;
 
         const updateSlidePosition = (animate = true) => {
           if (!animate) {
@@ -993,12 +936,10 @@
 
         track.addEventListener("transitionend", () => {
           isTransitioning = false;
-
           if (currentIndex === slides.length - 1) {
             currentIndex = 1;
             updateSlidePosition(false);
           }
-
           if (currentIndex === 0) {
             currentIndex = slides.length - 2;
             updateSlidePosition(false);
@@ -1050,7 +991,6 @@
       });
     </script>
 
-    <!-- 3. Typed.js Script for the Hacker Terminal -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -1083,10 +1023,7 @@
     <script>
       function slideNextNeo() {
         const track = document.getElementById("neoTrack");
-        // Scrolls by one card width + the gap
         track.scrollBy({ left: 284, behavior: "smooth" });
-
-        // Loop back to the start if they hit the end
         if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
           track.scrollTo({ left: 0, behavior: "smooth" });
         }

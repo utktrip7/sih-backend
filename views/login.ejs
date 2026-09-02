@@ -31,8 +31,6 @@
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
       }
 
-      /* We can remove the old logo CSS classes since we are using inline styles for perfect symmetry */
-
       .header-text {
         text-align: center;
         margin-bottom: 1.75rem;
@@ -262,8 +260,21 @@
         <button type="submit" class="submit-btn">Sign In</button>
       </form>
 
-      <div class="footer" style="text-align: center">
-        New to Abhedya? <a href="/register">Create an Account</a>
+      <!-- UPDATED FOOTER WITH DEMO CREDENTIALS & MAGIC BUTTON -->
+      <div class="footer" style="text-align: center; margin-top: 20px;">
+        <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 16px;">
+          New to Abhedya? <a href="/register" style="color: #63dbfb; text-decoration: none; font-weight: 600;">Create an Account</a>
+        </p>
+
+        <!-- Static Demo Text & Magic Button -->
+        <div style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; border-top: 1px solid #1e293b; padding-top: 16px;">
+          Demo ID - <span style="color: #ffffff; font-family: monospace; letter-spacing: 0.5px;">125XX0001</span><br>
+          Demo Password - <span style="color: #ffffff; font-family: monospace; letter-spacing: 0.5px;">nitr769008</span><br>
+          
+          <button type="button" onclick="fillStudentDemo()" style="background: none; border: none; font-size: 0.8rem; color: #94a3b8; cursor: pointer; text-decoration: underline; margin-top: 8px; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#94a3b8'">
+            Auto-fill for Judges
+          </button>
+        </div>
       </div>
     </div>
 
@@ -282,6 +293,15 @@
     </div>
 
     <script>
+      // MAGIC BUTTON FUNCTION
+      function fillStudentDemo() {
+        const idInput = document.getElementById("login-id");
+        const passInput = document.getElementById("password");
+        
+        if (idInput) idInput.value = '125XX0001';
+        if (passInput) passInput.value = 'nitr769008';
+      }
+
       function togglePasswordVisibility() {
         const pwd = document.getElementById("password");
         pwd.type = pwd.type === "password" ? "text" : "password";
